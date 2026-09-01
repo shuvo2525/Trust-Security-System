@@ -1,0 +1,877 @@
+/* ==========================================================================
+   Trust Security System - Custom Enhancements (Light Blue Theme & Modern UI)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Afacad:ital,wght@0,400..700;1,400..700&display=swap');
+
+:root {
+  --theme-blue: #0ea5e9;        /* Modern Vibrant Light/Sky Blue */
+  --theme-blue-dark: #0284c7;   /* Medium Sky Blue */
+  --theme-blue-light: #38bdf8;  /* Bright Light Blue */
+  --theme-cyan: #00c6ff;        /* Neon Cyan */
+  --theme-accent: #0ea5e9;
+  --theme-dark: #0b132a;
+  --theme-dark-rgb: 11, 19, 42;
+  --theme-gray: #64748b;
+  --theme-border: #e2e8f0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', 'Afacad', sans-serif;
+  color: #475569;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   Standard Balanced Section Spacing Across Website
+   ========================================================================== */
+.sp1 {
+  padding: 55px 0 !important;
+}
+
+.sp2 {
+  padding: 55px 0 !important;
+}
+
+.hero1-section-area {
+  padding: 40px 0 50px 0 !important;
+}
+
+.about1-section-area {
+  padding: 55px 0 !important;
+}
+
+/* Dedicated Inner Page Banner (Guaranteed never to hide under menu bar) */
+.inner-page-banner,
+.contact-banner-area {
+  background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+  padding: 60px 0 45px 0 !important;
+  position: relative;
+  border-bottom: 1px solid #e0f2fe;
+}
+
+.contact-banner-area h1,
+.inner-page-banner h1 {
+  font-size: 38px !important;
+  font-weight: 800 !important;
+  color: #0f172a !important;
+  margin: 12px 0 10px 0 !important;
+  letter-spacing: -0.5px;
+}
+
+.bdcom-section-area {
+  padding: 55px 0 !important;
+}
+
+.sectors-section-area {
+  padding: 55px 0 !important;
+}
+
+.service1-section-area {
+  padding: 55px 0 !important;
+}
+
+.project1-section-area {
+  padding: 55px 0 !important;
+}
+
+.testimonial1-section-area {
+  padding: 50px 0 45px 0 !important;
+}
+
+.counter-section-area {
+  padding: 40px 0 !important;
+}
+
+.branches-section-area {
+  padding: 55px 0 !important;
+}
+
+.blog1-section-area {
+  padding: 55px 0 !important;
+}
+
+.contact-form-section {
+  padding: 45px 0 !important;
+}
+
+.footer1-section-area {
+  padding: 55px 0 25px 0 !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Reduce spacer heights */
+.space10 { height: 6px !important; }
+.space12 { height: 8px !important; }
+.space20 { height: 12px !important; }
+.space30 { height: 16px !important; }
+.space40 { height: 20px !important; }
+.space50 { height: 25px !important; }
+.space60 { height: 30px !important; }
+.space80 { height: 35px !important; }
+.space100 { height: 40px !important; }
+
+/* Standardize heading bottom margins */
+.heading2 {
+  margin-bottom: 25px !important;
+}
+.heading2 h2 {
+  margin-bottom: 10px !important;
+}
+.heading2 h5 {
+  margin-bottom: 8px !important;
+}
+
+/* Site Logo Optimization */
+.site-logo img, .mobile-logo img, .logos img {
+  max-height: 65px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(56, 189, 248, 0.25));
+  transition: transform 0.3s ease;
+}
+
+.site-logo img:hover, .mobile-logo img:hover {
+  transform: scale(1.03);
+}
+
+/* Footer Off-White Logo Box */
+.footer-logo-box {
+  display: inline-block;
+  background: #f8fafc;
+  padding: 14px 22px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  margin-bottom: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.footer-logo-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(56, 189, 248, 0.3);
+}
+
+.footer-logo-box img {
+  max-height: 70px;
+  width: auto;
+  display: block;
+}
+
+/* ==========================================================================
+   Top Header Bar - Perfectly Aligned Equal Width Badges & Vibrant Green WhatsApp
+   ========================================================================== */
+.top-header-bar {
+  background: #081533;
+  color: #e2e8f0;
+  padding: 9px 0;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.top-header-bar a {
+  color: #cbd5e1;
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+.top-header-bar a:hover {
+  color: #38bdf8;
+}
+
+.top-header-bar .contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-right: 18px;
+}
+
+.top-header-bar .contact-item i {
+  color: #38bdf8;
+  font-size: 13px;
+}
+
+/* Vibrant Green WhatsApp Icon */
+.top-header-bar .contact-item .fa-whatsapp,
+.top-header-bar a .fa-whatsapp,
+.top-contacts .fa-whatsapp {
+  color: #22c55e !important;
+  font-size: 15px !important;
+  filter: drop-shadow(0 2px 5px rgba(34, 197, 94, 0.4));
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.top-header-bar a:hover .fa-whatsapp {
+  color: #16a34a !important;
+  transform: scale(1.15);
+}
+
+.top-header-bar .branch-badge {
+  background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+  color: #ffffff;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  font-weight: 700;
+  margin-right: 8px;
+  min-width: 108px;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.2px;
+  box-shadow: 0 2px 6px rgba(14, 165, 233, 0.3);
+}
+
+/* Header Area */
+.header-area {
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  z-index: 999;
+}
+
+.header-area.header-sticky.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  animation: slideDown 0.35s ease-out;
+  box-shadow: 0 8px 25px rgba(14, 165, 233, 0.15);
+  background: #ffffff;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+
+.header-elements {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* ==========================================================================
+   Navigation Menu - Pure Black Color Initially, Turns Blue on Hover / Active Click
+   ========================================================================== */
+.main-menu {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.main-menu ul {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.main-menu ul li {
+  position: relative;
+  list-style: none;
+  white-space: nowrap;
+}
+
+.main-menu ul li a {
+  color: #000000 !important;
+  font-weight: 700 !important;
+  font-size: 15.5px;
+  text-decoration: none;
+  display: inline-block;
+  padding: 24px 2px;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  letter-spacing: -0.2px;
+  position: relative;
+}
+
+.main-menu ul li a::after {
+  content: "";
+  position: absolute;
+  bottom: 14px;
+  left: 0;
+  width: 0;
+  height: 2.5px;
+  background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+  border-radius: 2px;
+  transition: width 0.25s ease;
+}
+
+.main-menu ul li a i {
+  display: none !important;
+}
+
+.main-menu ul li:hover > a,
+.main-menu ul li a:hover,
+.main-menu ul li a:active,
+.main-menu ul li a:focus {
+  color: #0ea5e9 !important;
+}
+
+.main-menu ul li:hover > a::after,
+.main-menu ul li a:hover::after,
+.main-menu ul li a:active::after,
+.main-menu ul li a:focus::after {
+  width: 100%;
+}
+
+/* ==========================================================================
+   Clean Solid Buttons - ZERO Outer Offset Borders / Lines / Cycles
+   ========================================================================== */
+.header-btn1, .header-btn2, .header-btn3, .header-btn10, .header-btn11,
+.btn-area .header-btn1, .btn-area .header-btn2, .btn-area .header-btn3 {
+  border: none !important;
+  outline: none !important;
+}
+
+/* Remove all offset border lines / pseudoelements from all buttons */
+.header-btn1::before, .header-btn1::after,
+.header-btn2::before, .header-btn2::after,
+.header-btn3::before, .header-btn3::after,
+.header-btn10::before, .header-btn10::after,
+.header-btn11::before, .header-btn11::after,
+.btn-area .header-btn1::before, .btn-area .header-btn1::after,
+.btn-area .header-btn2::before, .btn-area .header-btn2::after {
+  display: none !important;
+  content: none !important;
+  border: none !important;
+  outline: none !important;
+}
+
+/* Header Contact Button */
+.header-elements .header-btn1 {
+  background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%) !important;
+  color: #ffffff !important;
+  padding: 12px 32px !important;
+  border-radius: 8px !important;
+  font-weight: 800 !important;
+  font-size: 16px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 4px 18px rgba(14, 165, 233, 0.4) !important;
+  transition: all 0.3s ease !important;
+  border: none !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  letter-spacing: 0.5px !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.header-elements .header-btn1:hover {
+  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.55) !important;
+  color: #ffffff !important;
+}
+
+/* Hero "Get a Free Quote" Button */
+.header-btn2 {
+  background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.35) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  padding: 14px 30px !important;
+  transition: all 0.3s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+}
+
+.header-btn2:hover {
+  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 22px rgba(14, 165, 233, 0.5) !important;
+  color: #ffffff !important;
+}
+
+/* Hero "View Products" Secondary Button */
+.hero-main-area .btn-area .header-btn1 {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+  border: 1.5px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  padding: 14px 28px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  transition: all 0.3s ease !important;
+}
+
+.hero-main-area .btn-area .header-btn1:hover {
+  background: #e2e8f0 !important;
+  color: #0ea5e9 !important;
+  border-color: #0ea5e9 !important;
+  transform: translateY(-2px) !important;
+}
+
+/* ==========================================================================
+   Hero Badge & Subtitle - Pure White Text with Premium Badges
+   ========================================================================== */
+.hero-main-area h5 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+  color: #ffffff !important;
+  padding: 8px 20px !important;
+  border-radius: 50px;
+  font-size: 14.5px !important;
+  font-weight: 800 !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.35) !important;
+  letter-spacing: 0.3px;
+  margin-bottom: 14px;
+}
+
+.hero-main-area h5 img {
+  filter: brightness(0) invert(1);
+}
+
+.hero-main-area h1 {
+  font-size: 46px;
+  line-height: 1.15;
+  color: #0f172a;
+  font-weight: 800;
+  margin: 14px 0;
+  letter-spacing: -0.5px;
+}
+
+.hero-main-area .hero-subtitle {
+  display: inline-block;
+  background: linear-gradient(135deg, #0b1531, #1e293b);
+  color: #ffffff !important;
+  padding: 6px 18px;
+  border-radius: 8px;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  margin-bottom: 12px;
+  display: inline-block;
+  letter-spacing: 0.2px;
+  box-shadow: 0 4px 14px rgba(11, 21, 49, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* BDCOM Section */
+.bdcom-section-area {
+  background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.bdcom-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+  color: #ffffff;
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+}
+
+.bdcom-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 25px rgba(14, 165, 233, 0.08);
+  border: 1px solid #e0f2fe;
+  transition: all 0.35s ease;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.bdcom-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 35px rgba(14, 165, 233, 0.2);
+  border-color: #38bdf8;
+}
+
+.bdcom-card .card-tag {
+  align-self: flex-start;
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.bdcom-card .product-img {
+  text-align: center;
+  padding: 12px 10px;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  border-radius: 12px;
+  margin-bottom: 14px;
+}
+
+.bdcom-card .product-img img {
+  max-height: 100px;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.08));
+}
+
+.bdcom-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.bdcom-card .product-desc {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 14px;
+  line-height: 1.45;
+}
+
+.bdcom-card .feature-list {
+  margin-top: auto;
+  border-top: 1px dashed #e2e8f0;
+  padding-top: 12px;
+}
+
+.bdcom-card .feature-list li {
+  font-size: 13px;
+  color: #334155;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bdcom-card .feature-list li i {
+  color: #0ea5e9;
+  font-size: 13px;
+}
+
+/* Application Sectors Section */
+.sectors-section-area {
+  background: #ffffff;
+}
+
+.sector-card {
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 20px 14px;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.sector-card:hover {
+  background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+  color: #ffffff;
+  transform: translateY(-5px);
+  box-shadow: 0 14px 28px rgba(14, 165, 233, 0.28);
+  border-color: transparent;
+}
+
+.sector-card:hover h4,
+.sector-card:hover p {
+  color: #ffffff;
+}
+
+.sector-card:hover .sector-icon {
+  background: #ffffff;
+  color: #0ea5e9;
+}
+
+.sector-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #e0f2fe;
+  color: #0ea5e9;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+
+.sector-card h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 3px;
+}
+
+.sector-card p {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Service Boxes */
+.service-boxarea .icons {
+  width: 68px;
+  height: 68px;
+  background: #e0f2fe;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  transition: all 0.3s ease;
+}
+
+.service-boxarea .icons i {
+  font-size: 30px;
+  color: #0ea5e9;
+  transition: color 0.3s ease;
+}
+
+.service-boxarea:hover .icons {
+  background: #0ea5e9;
+}
+
+.service-boxarea:hover .icons i {
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Branch Highlight Boxes - 100% Identical Matching Colors for Both Branches
+   ========================================================================== */
+.branches-section-area {
+  background: #09132c;
+  color: #ffffff;
+  position: relative;
+}
+
+.branch-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 28px;
+  transition: all 0.35s ease;
+  backdrop-filter: blur(10px);
+  height: 100%;
+}
+
+.branch-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #38bdf8;
+  transform: translateY(-5px);
+  box-shadow: 0 18px 36px rgba(56, 189, 248, 0.2);
+}
+
+.branch-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+  color: #ffffff !important;
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.35);
+}
+
+.branch-card h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 16px 0 14px 0;
+}
+
+.branch-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+  color: #cbd5e1;
+  font-size: 14px;
+}
+
+.branch-info-item i {
+  color: #38bdf8;
+  font-size: 16px;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.branch-info-item a {
+  color: #f1f5f9;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.branch-info-item a:hover {
+  color: #38bdf8;
+}
+
+.branch-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+  color: #ffffff !important;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 13.5px;
+  margin-top: 12px;
+  transition: all 0.3s;
+  text-decoration: none;
+  border: none;
+  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.3);
+}
+
+.branch-cta-btn:hover {
+  background: linear-gradient(135deg, #0284c7, #0ea5e9);
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(14, 165, 233, 0.45);
+}
+
+.branch-wa-btn {
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3) !important;
+}
+
+.branch-wa-btn:hover {
+  background: linear-gradient(135deg, #059669, #047857) !important;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45) !important;
+}
+
+/* ==========================================================================
+   Ultra-Modern Contact Form Styling
+   ========================================================================== */
+.modern-contact-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 36px;
+  box-shadow: 0 15px 45px rgba(14, 165, 233, 0.12);
+  border: 1px solid #e0f2fe;
+  position: relative;
+}
+
+.modern-form-group {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.modern-form-group .form-icon {
+  position: absolute;
+  top: 15px;
+  left: 16px;
+  color: #0ea5e9;
+  font-size: 15px;
+}
+
+.modern-form-input {
+  width: 100%;
+  padding: 13px 16px 13px 45px;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14.5px;
+  color: #1e293b;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+.modern-form-input:focus {
+  background: #ffffff;
+  border-color: #0ea5e9;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
+}
+
+.modern-form-label {
+  font-weight: 700;
+  font-size: 13.5px;
+  color: #334155;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.modern-submit-btn {
+  background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%);
+  color: #ffffff;
+  font-size: 15.5px;
+  font-weight: 800;
+  padding: 15px 32px;
+  border-radius: 10px;
+  border: none;
+  width: 100%;
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.modern-submit-btn:hover {
+  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(14, 165, 233, 0.55);
+}
+
+/* ==========================================================================
+   Clean Footer Contact Info
+   ========================================================================== */
+.footer1-section-area .location-area,
+.footer1-section-area .location-area .img1 {
+  display: none !important;
+}
+
+.footer-contact-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+  color: #cbd5e1;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.footer-contact-row i {
+  color: #38bdf8 !important;
+  font-size: 16px;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.footer-contact-row a {
+  color: #38bdf8;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-contact-row a:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 991px) {
+  .hero-main-area h1 {
+    font-size: 34px;
+  }
+  .top-header-bar {
+    display: none;
+  }
+  .main-menu ul {
+    gap: 12px;
+  }
+}

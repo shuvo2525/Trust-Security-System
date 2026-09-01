@@ -1,0 +1,2926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin CMS Control Panel - Trust Security System</title>
+  <link rel="shortcut icon" href="assets/img/logo/fav-logo1.png" type="image/png">
+  
+  <!-- CSS Plugins -->
+  <link rel="stylesheet" href="assets/css/plugins/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #0ea5e9;
+      --primary-dark: #0284c7;
+      --primary-light: #38bdf8;
+      --sidebar-bg: #0b1531;
+      --card-bg: #ffffff;
+      --page-bg: #f8fafc;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--page-bg);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    /* ==========================================================================
+       1. LOGIN SCREEN
+       ========================================================================== */
+    #loginSection {
+      min-height: 100vh;
+      background: radial-gradient(circle at 10% 20%, #0d1f47 0%, #040915 90%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+    }
+
+    .login-container {
+      background: #ffffff;
+      width: 100%;
+      max-width: 440px;
+      border-radius: 24px;
+      padding: 42px 36px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      animation: fadeInScale 0.4s ease-out;
+    }
+
+    .login-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #0ea5e9, #38bdf8, #0284c7);
+    }
+
+    .login-logo-box {
+      background: #f8fafc;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      border-radius: 14px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 22px;
+    }
+
+    .login-logo-box img {
+      max-height: 52px;
+      width: auto;
+    }
+
+    .login-heading {
+      font-size: 22px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .login-sub {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      margin-bottom: 26px;
+    }
+
+    .login-form-group {
+      text-align: left;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .login-form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 7px;
+    }
+
+    .login-input-wrap {
+      position: relative;
+    }
+
+    .login-input-wrap i.field-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 15px;
+    }
+
+    .login-input-wrap i.toggle-pass {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 15px;
+      transition: color 0.2s;
+    }
+
+    .login-input-wrap i.toggle-pass:hover {
+      color: var(--primary);
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 13px 40px 13px 42px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 14px;
+      color: #0f172a;
+      background: #f8fafc;
+      outline: none;
+      transition: all 0.25s ease;
+    }
+
+    .login-input:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
+    }
+
+    .login-btn {
+      background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 800;
+      padding: 14px 20px;
+      border-radius: 12px;
+      border: none;
+      width: 100%;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(14, 165, 233, 0.35);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .login-btn:hover {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(14, 165, 233, 0.45);
+    }
+
+    .login-alert {
+      padding: 11px 16px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: none;
+      text-align: left;
+    }
+
+    .login-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-top: 24px;
+      font-weight: 600;
+    }
+
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* ==========================================================================
+       2. DASHBOARD SHELL & SIDEBAR
+       ========================================================================== */
+    #adminDashboardSection {
+      display: none;
+      min-height: 100vh;
+    }
+
+    .admin-wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .admin-sidebar {
+      width: 275px;
+      background: var(--sidebar-bg);
+      color: #f1f5f9;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      z-index: 100;
+      overflow-y: auto;
+    }
+
+    .sidebar-header {
+      padding: 22px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sidebar-header img {
+      max-height: 42px;
+      background: #ffffff;
+      padding: 4px 8px;
+      border-radius: 8px;
+    }
+
+    .sidebar-brand-name {
+      font-size: 15px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .sidebar-brand-name small {
+      display: block;
+      font-size: 11px;
+      color: #38bdf8;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .sidebar-nav {
+      padding: 18px 12px;
+      flex-grow: 1;
+      list-style: none;
+    }
+
+    .sidebar-category {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #64748b;
+      font-weight: 800;
+      padding: 12px 14px 6px 14px;
+    }
+
+    .nav-tab-btn {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      color: #94a3b8;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-bottom: 3px;
+    }
+
+    .nav-tab-btn i {
+      font-size: 16px;
+      width: 20px;
+      text-align: center;
+      color: #64748b;
+      transition: color 0.2s ease;
+    }
+
+    .nav-tab-btn:hover,
+    .nav-tab-btn.active {
+      background: rgba(14, 165, 233, 0.15);
+      color: #38bdf8;
+    }
+
+    .nav-tab-btn:hover i,
+    .nav-tab-btn.active i {
+      color: #38bdf8;
+    }
+
+    .sidebar-footer {
+      padding: 16px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .logout-btn {
+      background: none;
+      border: none;
+      color: #ef4444;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0;
+    }
+
+    .logout-btn:hover { color: #f87171; }
+
+    .admin-main-body {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      overflow-x: hidden;
+    }
+
+    .admin-topbar {
+      background: #ffffff;
+      padding: 16px 32px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+
+    .topbar-page-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-publish-all {
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+      color: #ffffff !important;
+      padding: 9px 16px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+      transition: all 0.2s;
+    }
+
+    .btn-publish-all:hover {
+      background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+      transform: translateY(-1px);
+    }
+
+    .view-live-site-btn {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff !important;
+      padding: 9px 18px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+      transition: all 0.2s;
+    }
+
+    .view-live-site-btn:hover {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.45);
+    }
+
+    .admin-content-padding {
+      padding: 30px 32px;
+      flex-grow: 1;
+    }
+
+    .tab-pane-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-pane-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .cms-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 26px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+      margin-bottom: 24px;
+    }
+
+    .cms-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .cms-card-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cms-card-title i { color: var(--primary); }
+
+    .form-group-item { margin-bottom: 18px; }
+    .form-group-item label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+
+    .cms-input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      font-size: 14px;
+      color: #0f172a;
+      outline: none;
+      transition: all 0.2s ease;
+      background: #f8fafc;
+    }
+
+    .cms-input:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+    }
+
+    .image-uploader-card {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 16px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 1.5px dashed #cbd5e1;
+      margin-bottom: 16px;
+    }
+
+    .image-thumb-box {
+      width: 90px;
+      height: 90px;
+      border-radius: 10px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .image-thumb-box img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .upload-trigger-btn {
+      background: #ffffff;
+      border: 1.5px solid var(--primary);
+      color: var(--primary);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .upload-trigger-btn:hover {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .upload-trigger-btn input[type="file"] { display: none; }
+
+    .cms-save-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #ffffff;
+      padding: 16px 24px;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+      position: sticky;
+      bottom: 20px;
+      z-index: 80;
+      margin-top: 10px;
+    }
+
+    .btn-save-cms {
+      background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+      color: #ffffff;
+      font-size: 14.5px;
+      font-weight: 800;
+      padding: 11px 26px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.35);
+      transition: all 0.25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-save-cms:hover {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(14, 165, 233, 0.45);
+    }
+
+    .color-swatch-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: transform 0.2s;
+      display: inline-block;
+      margin-right: 8px;
+    }
+
+    .color-swatch-btn:hover { transform: scale(1.15); }
+
+    .admin-toast-popup {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 14px 22px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      z-index: 99999;
+      border-left: 5px solid var(--success);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ==========================================================================
+     SECTION 1: LOGIN SCREEN
+     ========================================================================== -->
+<div id="loginSection">
+  <div class="login-container">
+    <div class="login-logo-box">
+      <img id="loginCardLogo" src="assets/img/logo/logo1.png" alt="Trust Security System">
+    </div>
+    
+    <h2 class="login-heading">Admin CMS Portal</h2>
+    <p class="login-sub">Please sign in with authorized credentials to manage website content & hardware catalog</p>
+
+    <div id="loginAlert" class="login-alert alert-danger">
+      <i class="fa-solid fa-circle-exclamation me-1"></i> Invalid username or password!
+    </div>
+
+    <form id="adminLoginForm">
+      <div class="login-form-group">
+        <label>Username</label>
+        <div class="login-input-wrap">
+          <i class="fa-solid fa-user field-icon"></i>
+          <input type="text" id="usernameInput" required class="login-input" placeholder="Enter username" autocomplete="username">
+        </div>
+      </div>
+
+      <div class="login-form-group">
+        <label>Password</label>
+        <div class="login-input-wrap">
+          <i class="fa-solid fa-lock field-icon"></i>
+          <input type="password" id="passwordInput" required class="login-input" placeholder="Enter password" autocomplete="current-password">
+          <i class="fa-solid fa-eye toggle-pass" id="togglePassBtn" onclick="togglePasswordVisibility()"></i>
+        </div>
+      </div>
+
+      <button type="submit" class="login-btn">
+        <i class="fa-solid fa-right-to-bracket"></i> Sign In to Dashboard
+      </button>
+    </form>
+
+    <a href="index.html" class="login-back-link">
+      <i class="fa-solid fa-arrow-left"></i> Return to Live Website
+    </a>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     SECTION 2: COMPLETE TABBED ADMIN CMS DASHBOARD (SPA)
+     ========================================================================== -->
+<div id="adminDashboardSection">
+  <div class="admin-wrapper">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <img id="sidebarLogo" src="assets/img/logo/logo1.png" alt="Logo">
+        <div class="sidebar-brand-name">
+          Trust Security
+          <small>Admin CMS Panel</small>
+        </div>
+      </div>
+
+      <ul class="sidebar-nav">
+        <li class="sidebar-category">Overview</li>
+        <li>
+          <button class="nav-tab-btn active" onclick="switchTab('tabDashboard')">
+            <i class="fa-solid fa-gauge-high"></i> Dashboard
+          </button>
+        </li>
+        <li>
+          <button class="nav-tab-btn" onclick="switchTab('tabInbox')">
+            <i class="fa-solid fa-inbox"></i> Quotations Inbox
+            <span id="inboxCountBadge" class="badge bg-danger ms-auto d-none">0</span>
+          </button>
+        </li>
+
+        <li class="sidebar-category">Website Content</li>
+        <li>
+          <button class="nav-tab-btn" onclick="switchTab('tabHeaderFooter')">
+            <i class="fa-solid fa-window-maximize"></i> Header & Footer
+          </button>
+        </li>
+        <li>
+          <button class="nav-tab-btn" onclick="switchTab('tabSettings')">
+            <i class="fa-solid fa-sliders"></i> Settings, Colors & Password
+          </button>
+        </li>
+        <li>
+          <button class="nav-tab-btn" onclick="switchTab('tabHome')">
+            <i class="fa-solid fa-house"></i> Home Page Editor
+          </button>
+        </li>
+        <li>
+          <button class="nav-tab-btn" onclick="switchTab('tabAbout')">
+            <i class="fa-solid fa-address-card"></i> About Us Page
+          </button>
+        </li>
+        <li>
+          <button class="nav-tab-btn" onclick="switchTab('tabProducts')">
+            <i class="fa-solid fa-boxes-stacked"></i> Products Catalog
+          </button>
+        </li>
+        <li>
+          <button class="nav-tab-btn" onclick="switchTab('tabServices')">
+            <i class="fa-solid fa-screwdriver-wrench"></i> Services Manager
+          </button>
+        </li>
+        <li>
+          <button class="nav-tab-btn" onclick="switchTab('tabContact')">
+            <i class="fa-solid fa-location-dot"></i> Contact & Branches
+          </button>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <button type="button" class="logout-btn" onclick="performLogout()">
+          <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main-body">
+      
+      <!-- Topbar -->
+      <header class="admin-topbar">
+        <h1 class="topbar-page-title" id="currentTabTitle">Dashboard Overview</h1>
+        <div class="topbar-actions">
+          <button type="button" class="btn-publish-all" onclick="publishAndExportData()" title="Export updated default-content.js so all browsers see your changes permanently">
+            <i class="fa-solid fa-file-export"></i> Publish to All Browsers
+          </button>
+          <a href="index.html" target="_blank" class="view-live-site-btn" title="Open Live Website in New Tab">
+            <i class="fa-solid fa-globe"></i> View Live Website
+          </a>
+          <button type="button" class="btn btn-outline-danger btn-sm" onclick="resetFactoryDefaults()">
+            <i class="fa-solid fa-rotate-left"></i> Reset Defaults
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="admin-content-padding">
+        
+        <!-- ==================================================================
+             TAB 1: DASHBOARD OVERVIEW
+             ================================================================== -->
+        <div id="tabDashboard" class="tab-pane-content active">
+          
+          <div class="alert alert-primary d-flex align-items-center justify-content-between p-3 mb-4 rounded-4 shadow-sm border-0">
+            <div class="d-flex align-items-center gap-3">
+              <i class="fa-solid fa-cloud-arrow-up fs-3 text-primary"></i>
+              <div>
+                <strong class="d-block">Cross-Browser Permanent Publishing</strong>
+                <small class="text-muted">Click <strong>"Publish to All Browsers"</strong> to export your updated <code>default-content.js</code> file so Edge, Firefox, Chrome & all devices show your changes permanently!</small>
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary fw-bold px-3" onclick="publishAndExportData()">
+              <i class="fa-solid fa-download me-1"></i> Export Data File
+            </button>
+          </div>
+
+          <div class="row g-4 mb-4">
+            <div class="col-md-3">
+              <div class="cms-card text-center p-3 mb-0 h-100">
+                <i class="fa-solid fa-envelope-open-text fs-2 text-primary mb-2"></i>
+                <h3 id="statInqCount" class="fw-bold mb-1">0</h3>
+                <span class="text-muted small">Quotation Inquiries</span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="cms-card text-center p-3 mb-0 h-100">
+                <i class="fa-solid fa-network-wired fs-2 text-info mb-2"></i>
+                <h3 id="statProdCount" class="fw-bold mb-1">4</h3>
+                <span class="text-muted small">Active Products</span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="cms-card text-center p-3 mb-0 h-100">
+                <i class="fa-solid fa-palette fs-2 text-success mb-2"></i>
+                <h3 id="statColorPreview" class="fw-bold mb-1">Custom</h3>
+                <span class="text-muted small">Theme Color Active</span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="cms-card text-center p-3 mb-0 h-100">
+                <i class="fa-solid fa-bullhorn fs-2 text-warning mb-2"></i>
+                <h3 id="statPopupStatus" class="fw-bold mb-1">OFF</h3>
+                <span class="text-muted small">Flash Popup Status</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="cms-card">
+            <div class="cms-card-header">
+              <h2 class="cms-card-title"><i class="fa-solid fa-bolt"></i> Quick Controls</h2>
+            </div>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <button type="button" class="btn p-3 border rounded-3 bg-light w-100 text-start d-flex align-items-center gap-3" onclick="switchTab('tabSettings')">
+                  <i class="fa-solid fa-palette text-primary fs-3"></i>
+                  <div>
+                    <strong class="d-block text-dark">Theme Color & Password</strong>
+                    <small class="text-muted">Change site colors & admin password</small>
+                  </div>
+                </button>
+              </div>
+              <div class="col-md-4">
+                <button type="button" class="btn p-3 border rounded-3 bg-light w-100 text-start d-flex align-items-center gap-3" onclick="switchTab('tabSettings')">
+                  <i class="fa-solid fa-bullhorn text-warning fs-3"></i>
+                  <div>
+                    <strong class="d-block text-dark">Website Flash SMS / Picture</strong>
+                    <small class="text-muted">Turn ON/OFF site open announcement</small>
+                  </div>
+                </button>
+              </div>
+              <div class="col-md-4">
+                <button type="button" class="btn p-3 border rounded-3 bg-light w-100 text-start d-flex align-items-center gap-3" onclick="switchTab('tabHome')">
+                  <i class="fa-solid fa-house text-success fs-3"></i>
+                  <div>
+                    <strong class="d-block text-dark">Home Page & Pictures</strong>
+                    <small class="text-muted">Edit Peace of Mind & Satisfied Clients</small>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="cms-card">
+            <div class="cms-card-header">
+              <h2 class="cms-card-title"><i class="fa-solid fa-inbox"></i> Recent Quotations Received</h2>
+              <button class="btn btn-sm btn-outline-primary" onclick="switchTab('tabInbox')">Open Full Inbox</button>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Branch</th>
+                    <th>Requirement</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="dashInquiriesTbody">
+                  <tr>
+                    <td colspan="6" class="text-center text-muted py-4">No quotation inquiries yet. Submissions from contact.html appear here!</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================================================================
+             TAB 2: HEADER & FOOTER EDIT
+             ================================================================== -->
+        <div id="tabHeaderFooter" class="tab-pane-content">
+          <form onsubmit="handleSaveHeaderFooter(event)">
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <h2 class="cms-card-title"><i class="fa-solid fa-window-maximize"></i> Top Header Bar Information</h2>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <div class="form-group-item">
+                    <label>Top Bar Hotline Number</label>
+                    <input type="text" id="hfHotline" class="cms-input" placeholder="01911-660036">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group-item">
+                    <label>WhatsApp Number</label>
+                    <input type="text" id="hfWhatsapp" class="cms-input" placeholder="01911-660036">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group-item">
+                    <label>Official Email</label>
+                    <input type="email" id="hfEmail" class="cms-input" placeholder="info@trustsecuritysystem.com">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <h2 class="cms-card-title"><i class="fa-solid fa-shoe-prints"></i> Footer Information & Social Media</h2>
+              </div>
+              <div class="row g-3">
+                <div class="col-12">
+                  <div class="form-group-item">
+                    <label>Footer Brand Summary Paragraph</label>
+                    <textarea id="hfFooterSummary" rows="2" class="cms-input"></textarea>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group-item">
+                    <label><i class="fa-brands fa-facebook text-primary me-1"></i> Facebook URL</label>
+                    <input type="url" id="hfFb" class="cms-input">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group-item">
+                    <label><i class="fa-brands fa-whatsapp text-success me-1"></i> WhatsApp URL</label>
+                    <input type="url" id="hfWa" class="cms-input">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group-item">
+                    <label><i class="fa-brands fa-youtube text-danger me-1"></i> YouTube URL</label>
+                    <input type="url" id="hfYt" class="cms-input">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group-item">
+                    <label><i class="fa-brands fa-linkedin text-info me-1"></i> LinkedIn URL</label>
+                    <input type="url" id="hfIn" class="cms-input">
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group-item">
+                    <label>Footer Copyright Text</label>
+                    <input type="text" id="hfCopyright" class="cms-input">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cms-save-bar">
+              <div class="d-flex align-items-center gap-2">
+                <a href="index.html" target="_blank" class="view-live-site-btn py-2 px-3 small">
+                  <i class="fa-solid fa-globe"></i> View Live Site
+                </a>
+              </div>
+              <button type="submit" class="btn-save-cms"><i class="fa-solid fa-floppy-disk"></i> Save Header & Footer</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- ==================================================================
+             TAB 3: SETTINGS, THEME COLORS, FLASH POPUP & PASSWORD
+             ================================================================== -->
+        <div id="tabSettings" class="tab-pane-content">
+          <form onsubmit="handleSaveSettings(event)">
+            
+            <!-- 1. Theme Color Palette Customizer -->
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <h2 class="cms-card-title"><i class="fa-solid fa-palette text-primary"></i> 1. Website Theme Color Customizer</h2>
+              </div>
+              <p class="text-muted small mb-3">Pick any color or choose a preset palette to instantly change buttons, icons, highlights, and accent colors across the entire website.</p>
+              
+              <div class="row g-3 align-items-center mb-3">
+                <div class="col-md-4">
+                  <label class="fw-bold small mb-1">Primary Brand Color</label>
+                  <div class="d-flex align-items-center gap-2">
+                    <input type="color" id="themePrimaryColorInput" class="form-control form-control-color" value="#0ea5e9" style="width: 50px; height: 42px;">
+                    <input type="text" id="themePrimaryColorText" class="cms-input" value="#0ea5e9" placeholder="#0ea5e9">
+                  </div>
+                </div>
+
+                <div class="col-md-8">
+                  <label class="fw-bold small mb-2 d-block">Quick Presets</label>
+                  <div class="d-flex align-items-center flex-wrap gap-2">
+                    <span class="color-swatch-btn" style="background:#0ea5e9;" title="Light Blue (Default)" onclick="setPresetColor('#0ea5e9', '#0284c7', '#38bdf8')"></span>
+                    <span class="color-swatch-btn" style="background:#2563eb;" title="Royal Blue" onclick="setPresetColor('#2563eb', '#1d4ed8', '#60a5fa')"></span>
+                    <span class="color-swatch-btn" style="background:#059669;" title="Emerald Green" onclick="setPresetColor('#059669', '#047857', '#34d399')"></span>
+                    <span class="color-swatch-btn" style="background:#dc2626;" title="Crimson Red" onclick="setPresetColor('#dc2626', '#b91c1c', '#f87171')"></span>
+                    <span class="color-swatch-btn" style="background:#7c3aed;" title="Vibrant Purple" onclick="setPresetColor('#7c3aed', '#6d28d9', '#a78bfa')"></span>
+                    <span class="color-swatch-btn" style="background:#d97706;" title="Golden Amber" onclick="setPresetColor('#d97706', '#b45309', '#fbbf24')"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Website Open Flash SMS / Picture Popup -->
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <h2 class="cms-card-title"><i class="fa-solid fa-bullhorn text-warning"></i> 2. Website Open Flash SMS & Picture Popup</h2>
+                <div class="form-check form-switch fs-5">
+                  <input class="form-check-input" type="checkbox" id="flashPopupToggle">
+                  <label class="form-check-label fs-6 fw-bold text-dark ms-2" for="flashPopupToggle">Enable Flash Popup (ON / OFF)</label>
+                </div>
+              </div>
+              <p class="text-muted small mb-3">When turned ON, this promotional announcement popup appears automatically when visitors open the website. When OFF, it is completely hidden.</p>
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="form-group-item">
+                    <label>Popup Announcement Title</label>
+                    <input type="text" id="flashPopupTitle" class="cms-input" placeholder="Special Surveillance & BDCOM Offer!">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group-item">
+                    <label>Action Button Text</label>
+                    <input type="text" id="flashPopupBtnText" class="cms-input" placeholder="Get Free Quote">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group-item">
+                    <label>Action Button Link</label>
+                    <input type="text" id="flashPopupBtnLink" class="cms-input" placeholder="contact.html">
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group-item">
+                    <label>Announcement Message Text</label>
+                    <textarea id="flashPopupMsg" rows="2" class="cms-input" placeholder="Enter special notice, discount offer or alert..."></textarea>
+                  </div>
+                </div>
+
+                <!-- Flash Picture Upload -->
+                <div class="col-md-6">
+                  <label class="fw-bold small mb-2">Flash Announcement Picture</label>
+                  <div class="image-uploader-card">
+                    <div class="image-thumb-box" style="width: 100px; height: 75px;">
+                      <img id="flashPopupImgThumb" src="assets/img/all-images/about-img1.png" alt="Flash Promo">
+                    </div>
+                    <div>
+                      <label class="upload-trigger-btn">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload Flash Picture
+                        <input type="file" id="flashPopupFileInput" accept="image/*">
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Logo & Favicon Upload -->
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <h2 class="cms-card-title"><i class="fa-solid fa-icons"></i> 3. Logo, Favicon & Brand Names</h2>
+              </div>
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <label class="fw-bold small mb-2">Main Website Logo</label>
+                  <div class="image-uploader-card">
+                    <div class="image-thumb-box">
+                      <img id="setLogoThumb" src="assets/img/logo/logo1.png" alt="Logo">
+                    </div>
+                    <div>
+                      <label class="upload-trigger-btn">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload Logo
+                        <input type="file" id="logoUploadFile" accept="image/*">
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="fw-bold small mb-2">Browser Favicon</label>
+                  <div class="image-uploader-card">
+                    <div class="image-thumb-box" style="width: 60px; height: 60px;">
+                      <img id="setFavThumb" src="assets/img/logo/fav-logo1.png" alt="Favicon">
+                    </div>
+                    <div>
+                      <label class="upload-trigger-btn">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload Favicon
+                        <input type="file" id="favUploadFile" accept="image/*">
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group-item">
+                    <label>Company / Site Title</label>
+                    <input type="text" id="setSiteTitle" class="cms-input">
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group-item">
+                    <label>Company Slogan</label>
+                    <input type="text" id="setSlogan" class="cms-input">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Security & Admin Password Change -->
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <h2 class="cms-card-title"><i class="fa-solid fa-lock text-danger"></i> 4. Change Admin Password</h2>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <div class="form-group-item">
+                    <label>Current Password</label>
+                    <input type="password" id="currPassInput" class="cms-input" placeholder="Current password">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group-item">
+                    <label>New Password</label>
+                    <input type="password" id="newPassInput" class="cms-input" placeholder="New password">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group-item">
+                    <label>Confirm New Password</label>
+                    <input type="password" id="confirmPassInput" class="cms-input" placeholder="Confirm new password">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cms-save-bar">
+              <div class="d-flex align-items-center gap-2">
+                <a href="index.html" target="_blank" class="view-live-site-btn py-2 px-3 small">
+                  <i class="fa-solid fa-globe"></i> View Live Site
+                </a>
+              </div>
+              <button type="submit" class="btn-save-cms"><i class="fa-solid fa-floppy-disk"></i> Save Settings & Password</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- ==================================================================
+             TAB 4: COMPLETE HOME PAGE EDITOR
+             ================================================================== -->
+        <div id="tabHome" class="tab-pane-content">
+          <form onsubmit="handleSaveHome(event)">
+            
+            <!-- 1. Hero Section -->
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <h2 class="cms-card-title"><i class="fa-solid fa-bullhorn"></i> 1. Hero Banner Area & Satisfied Clients Review</h2>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="form-group-item">
+                    <label>Hero Tagline</label>
+                    <input type="text" id="homeHeroTagline" class="cms-input">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group-item">
+                    <label>Hero Slogan Subtitle</label>
+                    <input type="text" id="homeHeroSubtitle" class="cms-input">
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group-item">
+                    <label>Main Headline (H1)</label>
+                    <input type="text" id="homeHeroTitle" class="cms-input">
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group-item">
+                    <label>Hero Description</label>
+                    <textarea id="homeHeroDesc" rows="3" class="cms-input"></textarea>
+                  </div>
+                </div>
+
+                <!-- Hero Graphic Picture Upload -->
+                <div class="col-md-6">
+                  <label class="fw-bold small mb-2">Hero Right-Side Main Graphic</label>
+                  <div class="image-uploader-card">
+                    <div class="image-thumb-box" style="width: 100px; height: 100px;">
+                      <img id="flashPicThumb" src="assets/img/all-images/header-img1.png" alt="Hero Pic">
+                    </div>
+                    <div>
+                      <label class="upload-trigger-btn">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload Hero Picture
+                        <input type="file" id="flashPicUploadFile" accept="image/*">
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Satisfied Clients Box & Picture -->
+                <div class="col-md-6">
+                  <div class="p-3 border rounded-3 bg-light">
+                    <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-star text-warning me-1"></i> Satisfied Clients Review Box</h6>
+                    <div class="row g-2 mb-2">
+                      <div class="col-4">
+                        <label class="small fw-bold">Score (e.g. 4.8)</label>
+                        <input type="text" id="homeHeroRating" class="cms-input form-control-sm" placeholder="4.8">
+                      </div>
+                      <div class="col-8">
+                        <label class="small fw-bold">Review Label</label>
+                        <input type="text" id="homeClientCountText" class="cms-input form-control-sm" placeholder="Satisfied Clients With Trust Security">
+                      </div>
+                    </div>
+                    <div>
+                      <label class="small fw-bold mb-1">Client Avatars Picture</label>
+                      <div class="d-flex align-items-center gap-3">
+                        <img id="homeClientAvatarThumb" src="assets/img/all-images/others-img1.png" style="height: 36px; object-fit: contain;">
+                        <label class="upload-trigger-btn py-1 px-2 small">
+                          <i class="fa-solid fa-cloud-arrow-up"></i> Upload Avatars Pic
+                          <input type="file" id="homeClientAvatarFile" accept="image/*">
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- 2. "Safeguarding Your Peace of Mind" About Section -->
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <h2 class="cms-card-title"><i class="fa-solid fa-shield-halved text-success"></i> 2. "Safeguarding Your Peace of Mind" (About Section with Picture)</h2>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="form-group-item">
+                    <label>Badge Tagline</label>
+                    <input type="text" id="homeAboutBadge" class="cms-input" placeholder="Who We Are">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group-item">
+                    <label>Section Heading Title</label>
+                    <input type="text" id="homeAboutTitle" class="cms-input" placeholder="Safeguarding Your Peace of Mind">
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group-item">
+                    <label>Complete Description Paragraph</label>
+                    <textarea id="homeAboutDesc" rows="3" class="cms-input"></textarea>
+                  </div>
+                </div>
+
+                <!-- About Section Picture Upload -->
+                <div class="col-md-6">
+                  <label class="fw-bold small mb-2">About Section Main Picture (Safeguarding Peace of Mind)</label>
+                  <div class="image-uploader-card">
+                    <div class="image-thumb-box" style="width: 100px; height: 80px;">
+                      <img id="homeAboutImgThumb" src="assets/img/all-images/about-img1.png" alt="About Pic">
+                    </div>
+                    <div>
+                      <label class="upload-trigger-btn">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload About Picture
+                        <input type="file" id="homeAboutImgFile" accept="image/*">
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 3 Stats -->
+                <div class="col-md-6">
+                  <div class="p-3 border rounded-3 bg-light">
+                    <h6 class="fw-bold mb-2">3 Percentage Highlights</h6>
+                    <div class="row g-2">
+                      <div class="col-4">
+                        <input type="text" id="hStat1Pct" class="cms-input form-control-sm mb-1" placeholder="21%">
+                        <textarea id="hStat1Txt" rows="2" class="cms-input form-control-sm" placeholder="Text..."></textarea>
+                      </div>
+                      <div class="col-4">
+                        <input type="text" id="hStat2Pct" class="cms-input form-control-sm mb-1" placeholder="30%">
+                        <textarea id="hStat2Txt" rows="2" class="cms-input form-control-sm" placeholder="Text..."></textarea>
+                      </div>
+                      <div class="col-4">
+                        <input type="text" id="hStat3Pct" class="cms-input form-control-sm mb-1" placeholder="12K">
+                        <textarea id="hStat3Txt" rows="2" class="cms-input form-control-sm" placeholder="Text..."></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- 3. Working Video Section -->
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <h2 class="cms-card-title"><i class="fa-brands fa-youtube text-danger"></i> 3. Working Video (YouTube & Local Upload)</h2>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-12 mb-2">
+                  <label class="fw-bold small mb-2 d-block">Video Mode</label>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="videoSourceMode" id="modeYoutube" value="youtube" checked onchange="toggleVideoMode()">
+                    <label class="form-check-label fw-bold" for="modeYoutube"><i class="fa-brands fa-youtube text-danger me-1"></i> YouTube URL</label>
+                  </div>
+                  <div class="form-check form-check-inline ms-3">
+                    <input class="form-check-input" type="radio" name="videoSourceMode" id="modeLocal" value="local" onchange="toggleVideoMode()">
+                    <label class="form-check-label fw-bold" for="modeLocal"><i class="fa-solid fa-file-video text-primary me-1"></i> Local Video File Upload</label>
+                  </div>
+                </div>
+
+                <div class="col-md-8" id="youtubeInputGroup">
+                  <div class="form-group-item">
+                    <label>YouTube Video Link</label>
+                    <input type="url" id="homeVideoUrl" class="cms-input" placeholder="https://www.youtube.com/watch?v=...">
+                  </div>
+                </div>
+
+                <div class="col-md-8 d-none" id="localVideoUploadGroup">
+                  <div class="form-group-item">
+                    <label>Upload Local Video File (.mp4)</label>
+                    <div class="image-uploader-card">
+                      <label class="upload-trigger-btn">
+                        <i class="fa-solid fa-video"></i> Select Video
+                        <input type="file" id="localVideoFileInput" accept="video/mp4,video/webm,video/*">
+                      </label>
+                      <span id="localVideoFileName" class="small text-muted ms-2">No video file selected</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group-item">
+                    <label>Video Box Button Text</label>
+                    <input type="text" id="homeVideoHeading" class="cms-input" placeholder="Watch Our Working Video">
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="fw-bold small mb-2">Video Poster / Cover Frame</label>
+                  <div class="image-uploader-card">
+                    <div class="image-thumb-box" style="width: 100px; height: 75px;">
+                      <img id="videoCoverThumb" src="assets/img/all-images/video-img1.png" alt="Cover">
+                    </div>
+                    <div>
+                      <label class="upload-trigger-btn">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload Cover
+                        <input type="file" id="videoCoverFileInput" accept="image/*">
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group-item">
+                    <label>Partner Brands Header Text</label>
+                    <input type="text" id="homeBrandTitle" class="cms-input" placeholder="More Than 5K+ Brands With Work Securix">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Milestone Statistic Numbers -->
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <h2 class="cms-card-title"><i class="fa-solid fa-chart-pie"></i> 4. Milestone Statistics Numbers</h2>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-3">
+                  <div class="form-group-item">
+                    <label>Stat 1 (e.g. 620)</label>
+                    <input type="text" id="homeStat1Num" class="cms-input mb-1" placeholder="620">
+                    <input type="text" id="homeStat1Lbl" class="cms-input" placeholder="Satisfied Clients">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group-item">
+                    <label>Stat 2 (e.g. 1021)</label>
+                    <input type="text" id="homeStat2Num" class="cms-input mb-1" placeholder="1021">
+                    <input type="text" id="homeStat2Lbl" class="cms-input" placeholder="Camera Installed">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group-item">
+                    <label>Stat 3 (e.g. 19)</label>
+                    <input type="text" id="homeStat3Num" class="cms-input mb-1" placeholder="19">
+                    <input type="text" id="homeStat3Lbl" class="cms-input" placeholder="Years Experience">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group-item">
+                    <label>Stat 4 (e.g. 49)</label>
+                    <input type="text" id="homeStat4Num" class="cms-input mb-1" placeholder="49">
+                    <input type="text" id="homeStat4Lbl" class="cms-input" placeholder="Expert Members">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. Team Members Section -->
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <h2 class="cms-card-title"><i class="fa-solid fa-users"></i> 5. Team Members ("The Faces Behind Your Safety")</h2>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="openTeamModal(-1)">
+                  <i class="fa-solid fa-plus"></i> Add Team Member
+                </button>
+              </div>
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <div class="form-group-item mb-0">
+                    <label>Team Section Title</label>
+                    <input type="text" id="teamSecTitle" class="cms-input" placeholder="The Faces Behind Your Safety">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group-item mb-0">
+                    <label>Team Section Description</label>
+                    <input type="text" id="teamSecDesc" class="cms-input" placeholder="We're committed to providing personalized service...">
+                  </div>
+                </div>
+              </div>
+              <div id="teamCardsGrid" class="row g-3"></div>
+            </div>
+
+            <!-- 6. Blog Articles Section -->
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <h2 class="cms-card-title"><i class="fa-solid fa-newspaper"></i> 6. Blog Articles ("Discover the Latest in Surveillance")</h2>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="openBlogModal(-1)">
+                  <i class="fa-solid fa-plus"></i> Add Blog Post
+                </button>
+              </div>
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <div class="form-group-item mb-0">
+                    <label>Blog Section Title</label>
+                    <input type="text" id="blogSecTitle" class="cms-input" placeholder="Discover the Latest in Surveillance">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group-item mb-0">
+                    <label>Blog Section Description</label>
+                    <input type="text" id="blogSecDesc" class="cms-input" placeholder="Whether you're a homeowner looking to enhance security...">
+                  </div>
+                </div>
+              </div>
+              <div id="blogCardsGrid" class="row g-3"></div>
+            </div>
+
+            <div class="cms-save-bar">
+              <div class="d-flex align-items-center gap-2">
+                <a href="index.html" target="_blank" class="view-live-site-btn py-2 px-3 small">
+                  <i class="fa-solid fa-globe"></i> View Live Site
+                </a>
+              </div>
+              <button type="submit" class="btn-save-cms"><i class="fa-solid fa-floppy-disk"></i> Save All Homepage Content</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- ==================================================================
+             TAB 5: ABOUT US PAGE EDITOR
+             ================================================================== -->
+        <div id="tabAbout" class="tab-pane-content">
+          <form onsubmit="handleSaveAbout(event)">
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <h2 class="cms-card-title"><i class="fa-solid fa-address-card"></i> About Us Story & Mission</h2>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="form-group-item">
+                    <label>About Heading Title</label>
+                    <input type="text" id="aboutHeading" class="cms-input">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group-item">
+                    <label>Badge / Pill Text</label>
+                    <input type="text" id="aboutBadge" class="cms-input">
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group-item">
+                    <label>Main About Description</label>
+                    <textarea id="aboutMainDesc" rows="3" class="cms-input"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cms-save-bar">
+              <div class="d-flex align-items-center gap-2">
+                <a href="about.html" target="_blank" class="view-live-site-btn py-2 px-3 small">
+                  <i class="fa-solid fa-globe"></i> View About Page
+                </a>
+              </div>
+              <button type="submit" class="btn-save-cms"><i class="fa-solid fa-floppy-disk"></i> Save About Page</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- ==================================================================
+             TAB 6: PRODUCTS CATALOG (BDCOM & CCTV)
+             ================================================================== -->
+        <div id="tabProducts" class="tab-pane-content">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h4 class="fw-bold mb-1">BDCOM Products Catalog</h4>
+              <p class="text-muted small mb-0">Manage hardware products, tags, technical specifications, and uploaded photos.</p>
+            </div>
+            <div class="d-flex gap-2">
+              <a href="products.html" target="_blank" class="view-live-site-btn py-2 px-3 small">
+                <i class="fa-solid fa-globe"></i> View Products Page
+              </a>
+              <button type="button" class="btn-save-cms" onclick="openProductModal(-1)">
+                <i class="fa-solid fa-plus"></i> Add New Product
+              </button>
+            </div>
+          </div>
+          <div id="prodCardsList" class="row g-4"></div>
+        </div>
+
+        <!-- ==================================================================
+             TAB 7: SERVICES MANAGER
+             ================================================================== -->
+        <div id="tabServices" class="tab-pane-content">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h4 class="fw-bold mb-1">Services Offerings Manager</h4>
+              <p class="text-muted small mb-0">Update CCTV setup, BDCOM switching, GPON fiber, and AMC repair cards.</p>
+            </div>
+            <div class="d-flex gap-2">
+              <a href="services.html" target="_blank" class="view-live-site-btn py-2 px-3 small">
+                <i class="fa-solid fa-globe"></i> View Services Page
+              </a>
+              <button type="button" class="btn-save-cms" onclick="openServiceModal(-1)">
+                <i class="fa-solid fa-plus"></i> Add New Service
+              </button>
+            </div>
+          </div>
+          <div id="servCardsList" class="row g-4"></div>
+        </div>
+
+        <!-- ==================================================================
+             TAB 8: CONTACT & BRANCHES
+             ================================================================== -->
+        <div id="tabContact" class="tab-pane-content">
+          <form onsubmit="handleSaveContactBranches(event)">
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <h2 class="cms-card-title"><i class="fa-solid fa-city"></i> Dhaka Branch (Head Office)</h2>
+              </div>
+              <div class="row g-3">
+                <div class="col-12">
+                  <div class="form-group-item">
+                    <label>Full Address</label>
+                    <textarea id="dhakaAddr" rows="2" class="cms-input"></textarea>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group-item">
+                    <label>Working Hours</label>
+                    <input type="text" id="dhakaHours" class="cms-input" placeholder="Open: 10AM - 8PM">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group-item">
+                    <label>Branch Phone</label>
+                    <input type="text" id="dhakaPhone" class="cms-input" placeholder="01911-660036">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cms-card">
+              <div class="cms-card-header">
+                <h2 class="cms-card-title"><i class="fa-solid fa-building-circle-check"></i> Rajshahi Branch</h2>
+              </div>
+              <div class="row g-3">
+                <div class="col-12">
+                  <div class="form-group-item">
+                    <label>Full Address</label>
+                    <textarea id="rajshahiAddr" rows="2" class="cms-input"></textarea>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group-item">
+                    <label>Working Hours</label>
+                    <input type="text" id="rajshahiHours" class="cms-input" placeholder="Open: 10AM - 8PM">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group-item">
+                    <label>Branch Phone</label>
+                    <input type="text" id="rajshahiPhone" class="cms-input" placeholder="01911-660036">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cms-save-bar">
+              <div class="d-flex align-items-center gap-2">
+                <a href="contact.html" target="_blank" class="view-live-site-btn py-2 px-3 small">
+                  <i class="fa-solid fa-globe"></i> View Contact Page
+                </a>
+              </div>
+              <button type="submit" class="btn-save-cms"><i class="fa-solid fa-floppy-disk"></i> Save Branch Details</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- ==================================================================
+             TAB 9: QUOTATIONS INBOX
+             ================================================================== -->
+        <div id="tabInbox" class="tab-pane-content">
+          <div class="cms-card">
+            <div class="cms-card-header">
+              <h2 class="cms-card-title"><i class="fa-solid fa-inbox"></i> Customer Inquiries & Quotation Requests</h2>
+              <button type="button" class="btn btn-sm btn-outline-success" onclick="exportInboxCSV()">
+                <i class="fa-solid fa-file-csv me-1"></i> Export to CSV
+              </button>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>Date & Time</th>
+                    <th>Client Name</th>
+                    <th>Phone</th>
+                    <th>Branch</th>
+                    <th>Requirement</th>
+                    <th>Details</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="inboxTbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     MODALS
+     ========================================================================== -->
+
+<!-- Product Modal -->
+<div class="modal fade" id="productModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold" id="productModalTitle">Product Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="productEditForm">
+          <input type="hidden" id="prodEditIdx">
+          <div class="row g-3">
+            <div class="col-md-8">
+              <label class="fw-bold small mb-1">Product Title</label>
+              <input type="text" id="modalProdTitle" required class="cms-input" placeholder="e.g. BDCOM PoE Switch">
+            </div>
+            <div class="col-md-4">
+              <label class="fw-bold small mb-1">Badge Tag</label>
+              <input type="text" id="modalProdTag" required class="cms-input" placeholder="e.g. Power & Data">
+            </div>
+            <div class="col-12">
+              <label class="fw-bold small mb-1">Description</label>
+              <textarea id="modalProdDesc" rows="2" class="cms-input"></textarea>
+            </div>
+            <div class="col-12">
+              <label class="fw-bold small mb-1">Product Photo</label>
+              <div class="image-uploader-card">
+                <div class="image-thumb-box">
+                  <img id="modalProdImgThumb" src="assets/img/all-images/shop-img1.png" alt="">
+                </div>
+                <div>
+                  <label class="upload-trigger-btn">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload Picture
+                    <input type="file" id="modalProdImgFile" accept="image/*">
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <label class="fw-bold small mb-1">Specifications (1 line each)</label>
+              <textarea id="modalProdSpecs" rows="4" class="cms-input" placeholder="PoE Output 15.4W / 30W&#10;Long Range Transmission"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer px-0 pb-0 mt-3">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn-save-cms">Save Product</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Service Modal -->
+<div class="modal fade" id="serviceModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold" id="serviceModalTitle">Service Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="serviceEditForm">
+          <input type="hidden" id="servEditIdx">
+          <div class="form-group-item">
+            <label>Service Title</label>
+            <input type="text" id="modalServTitle" required class="cms-input">
+          </div>
+          <div class="form-group-item">
+            <label>Description</label>
+            <textarea id="modalServDesc" rows="3" required class="cms-input"></textarea>
+          </div>
+          <div class="form-group-item">
+            <label>Service Icon</label>
+            <select id="modalServIcon" class="cms-input">
+              <option value="assets/img/icons/service-icons1.svg">CCTV Camera Video Icon</option>
+              <option value="assets/img/icons/service-icons2.svg">Network & Switch Icon</option>
+              <option value="assets/img/icons/service-icons3.svg">Wrench & Repair Icon</option>
+            </select>
+          </div>
+          <div class="modal-footer px-0 pb-0 mt-3">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn-save-cms">Save Service</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Team Modal -->
+<div class="modal fade" id="teamModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold" id="teamModalTitle">Team Member Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="teamEditForm">
+          <input type="hidden" id="teamEditIdx">
+          <div class="form-group-item">
+            <label>Full Name</label>
+            <input type="text" id="modalTeamName" required class="cms-input">
+          </div>
+          <div class="form-group-item">
+            <label>Role / Designation</label>
+            <input type="text" id="modalTeamRole" required class="cms-input">
+          </div>
+          <div class="form-group-item">
+            <label>Member Photo</label>
+            <div class="image-uploader-card">
+              <div class="image-thumb-box" style="width: 70px; height: 70px;">
+                <img id="modalTeamImgThumb" src="assets/img/all-images/team-img1.png" alt="">
+              </div>
+              <div>
+                <label class="upload-trigger-btn">
+                  <i class="fa-solid fa-cloud-arrow-up"></i> Upload Photo
+                  <input type="file" id="modalTeamImgFile" accept="image/*">
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer px-0 pb-0 mt-3">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn-save-cms">Save Member</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Blog Modal -->
+<div class="modal fade" id="blogModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold" id="blogModalTitle">Blog Article Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="blogEditForm">
+          <input type="hidden" id="blogEditIdx">
+          <div class="row g-3">
+            <div class="col-md-8">
+              <label class="fw-bold small mb-1">Article Headline Title</label>
+              <input type="text" id="modalBlogTitle" required class="cms-input">
+            </div>
+            <div class="col-md-4">
+              <label class="fw-bold small mb-1">Publication Date</label>
+              <input type="text" id="modalBlogDate" class="cms-input" placeholder="12 March 2024">
+            </div>
+            <div class="col-md-6">
+              <label class="fw-bold small mb-1">Author Name</label>
+              <input type="text" id="modalBlogAuthor" required class="cms-input">
+            </div>
+            <div class="col-md-6">
+              <label class="fw-bold small mb-1">Author Photo</label>
+              <div class="image-uploader-card py-2">
+                <div class="image-thumb-box" style="width: 50px; height: 50px;">
+                  <img id="modalBlogAuthorThumb" src="assets/img/all-images/blog-img4.png" alt="">
+                </div>
+                <div>
+                  <label class="upload-trigger-btn py-1 px-2 small">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload Author Pic
+                    <input type="file" id="modalBlogAuthorFile" accept="image/*">
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <label class="fw-bold small mb-1">Cover Picture</label>
+              <div class="image-uploader-card">
+                <div class="image-thumb-box" style="width: 100px; height: 60px;">
+                  <img id="modalBlogCoverThumb" src="assets/img/all-images/blog-img1.png" alt="">
+                </div>
+                <div>
+                  <label class="upload-trigger-btn">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload Cover Image
+                    <input type="file" id="modalBlogCoverFile" accept="image/*">
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <label class="fw-bold small mb-1">Short Excerpt / Description</label>
+              <textarea id="modalBlogDesc" rows="3" required class="cms-input"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer px-0 pb-0 mt-3">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn-save-cms">Save Article</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="adminToast" class="admin-toast-popup"></div>
+
+<!-- Scripts -->
+<script src="assets/js/plugins/bootstrap.min.js"></script>
+<script src="data/default-content.js"></script>
+<script>
+  /* ==========================================================================
+     ADMIN CMS FULL CONTROLLER
+     ========================================================================== */
+  const DATA_KEY = "trust_security_site_data";
+  const INBOX_KEY = "trust_security_inbox";
+  const AUTH_KEY = "trust_admin_authenticated";
+
+  let siteData = {};
+  let tempUploads = {};
+  
+  const productModal = new bootstrap.Modal(document.getElementById('productModal'));
+  const serviceModal = new bootstrap.Modal(document.getElementById('serviceModal'));
+  const teamModal = new bootstrap.Modal(document.getElementById('teamModal'));
+  const blogModal = new bootstrap.Modal(document.getElementById('blogModal'));
+
+  function deepMerge(target, source) {
+    if (!source) return target;
+    var output = Object.assign({}, target);
+    for (var key in source) {
+      if (source.hasOwnProperty(key)) {
+        if (source[key] !== null && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+          output[key] = deepMerge(target[key] || {}, source[key]);
+        } else {
+          output[key] = source[key];
+        }
+      }
+    }
+    return output;
+  }
+
+  function init() {
+    loadData();
+    checkAuth();
+  }
+
+  function loadData() {
+    const base = JSON.parse(JSON.stringify(window.DEFAULT_SITE_DATA || {}));
+    try {
+      const saved = localStorage.getItem(DATA_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        siteData = deepMerge(base, parsed);
+      } else {
+        siteData = base;
+      }
+    } catch (e) {
+      siteData = base;
+    }
+  }
+
+  function saveData(msg) {
+    try {
+      localStorage.setItem(DATA_KEY, JSON.stringify(siteData));
+      showToast(msg || "Changes saved! Click 'Publish to All Browsers' to export.");
+    } catch (e) {
+      alert("Error saving: " + e.message);
+    }
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById("adminToast");
+    toast.innerHTML = '<i class="fa-solid fa-circle-check text-success"></i> ' + msg;
+    toast.style.display = "flex";
+    setTimeout(() => { toast.style.display = "none"; }, 3500);
+  }
+
+  /* --- PUBLISH & EXPORT TO ALL BROWSERS --- */
+  function publishAndExportData() {
+    try {
+      const jsContent = "/**\n * Trust Security System - Published Site Data\n * Auto-generated by Admin CMS for universal cross-browser compatibility\n */\nwindow.DEFAULT_SITE_DATA = " + JSON.stringify(siteData, null, 2) + ";\n";
+      const blob = new Blob([jsContent], { type: "application/javascript;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "default-content.js";
+      a.click();
+      showToast("Downloaded 'default-content.js'! Put it inside your data/ folder to update all browsers!");
+    } catch (err) {
+      alert("Export failed: " + err.message);
+    }
+  }
+
+  /* --- AUTHENTICATION & PASSWORD --- */
+  function getActiveAdminPassword() {
+    return (siteData && siteData.adminPassword) ? siteData.adminPassword : "Admin123";
+  }
+
+  function checkAuth() {
+    const isAuth = sessionStorage.getItem(AUTH_KEY) === "true";
+    if (isAuth) {
+      document.getElementById("loginSection").style.display = "none";
+      document.getElementById("adminDashboardSection").style.display = "block";
+      populateAllForms();
+    } else {
+      document.getElementById("loginSection").style.display = "flex";
+      document.getElementById("adminDashboardSection").style.display = "none";
+    }
+  }
+
+  function togglePasswordVisibility() {
+    const p = document.getElementById("passwordInput");
+    const icon = document.getElementById("togglePassBtn");
+    if (p.type === "password") {
+      p.type = "text";
+      icon.classList.replace("fa-eye", "fa-eye-slash");
+    } else {
+      p.type = "password";
+      icon.classList.replace("fa-eye-slash", "fa-eye");
+    }
+  }
+
+  document.getElementById("adminLoginForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const u = document.getElementById("usernameInput").value.trim();
+    const p = document.getElementById("passwordInput").value.trim();
+    const alertBox = document.getElementById("loginAlert");
+    const correctPass = getActiveAdminPassword();
+
+    if (u === "admin" && p === correctPass) {
+      alertBox.style.display = "none";
+      sessionStorage.setItem(AUTH_KEY, "true");
+      checkAuth();
+      showToast("Welcome to Trust Security System Admin CMS!");
+    } else {
+      alertBox.style.display = "block";
+      alertBox.innerHTML = '<i class="fa-solid fa-circle-exclamation me-1"></i> Incorrect username or password. Please try again.';
+    }
+  });
+
+  function performLogout() {
+    sessionStorage.removeItem(AUTH_KEY);
+    window.location.reload();
+  }
+
+  function resetFactoryDefaults() {
+    if (confirm("Reset all website texts, colors, flash popup, images, and password to factory defaults?")) {
+      localStorage.removeItem(DATA_KEY);
+      loadData();
+      populateAllForms();
+      showToast("Reset to factory defaults!");
+    }
+  }
+
+  /* --- TAB SWITCHING --- */
+  function switchTab(tabId) {
+    document.querySelectorAll(".tab-pane-content").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll(".nav-tab-btn").forEach(el => el.classList.remove("active"));
+
+    const target = document.getElementById(tabId);
+    if (target) target.classList.add("active");
+
+    const tabMap = {
+      tabDashboard: "Dashboard Overview",
+      tabInbox: "Quotations Inbox",
+      tabHeaderFooter: "Header & Footer Manager",
+      tabSettings: "Settings, Theme Colors & Password",
+      tabHome: "Home Page Editor (Hero, Peace of Mind, Video, Team, Blogs)",
+      tabAbout: "About Us Page Editor",
+      tabProducts: "BDCOM Products Catalog",
+      tabServices: "Services Offerings Manager",
+      tabContact: "Contact & Physical Branches"
+    };
+    document.getElementById("currentTabTitle").textContent = tabMap[tabId] || "Admin Control";
+
+    document.querySelectorAll(".nav-tab-btn").forEach(btn => {
+      if (btn.getAttribute("onclick") && btn.getAttribute("onclick").includes(tabId)) {
+        btn.classList.add("active");
+      }
+    });
+
+    if (tabId === "tabInbox" || tabId === "tabDashboard") renderInbox();
+    if (tabId === "tabProducts") renderProductsList();
+    if (tabId === "tabServices") renderServicesList();
+    if (tabId === "tabHome") {
+      renderTeamList();
+      renderBlogList();
+    }
+  }
+
+  function toggleVideoMode() {
+    const isLocal = document.getElementById("modeLocal").checked;
+    if (isLocal) {
+      document.getElementById("localVideoUploadGroup").classList.remove("d-none");
+      document.getElementById("youtubeInputGroup").classList.add("d-none");
+    } else {
+      document.getElementById("localVideoUploadGroup").classList.add("d-none");
+      document.getElementById("youtubeInputGroup").classList.remove("d-none");
+    }
+  }
+
+  /* --- COLOR PRESET HELPER --- */
+  window.setPresetColor = function (pri, dark, light) {
+    document.getElementById("themePrimaryColorInput").value = pri;
+    document.getElementById("themePrimaryColorText").value = pri;
+    tempUploads.themePrimary = pri;
+    tempUploads.themeDark = dark;
+    tempUploads.themeLight = light;
+    showToast("Color preset selected: " + pri);
+  };
+
+  document.getElementById("themePrimaryColorInput").addEventListener("input", function () {
+    document.getElementById("themePrimaryColorText").value = this.value;
+    tempUploads.themePrimary = this.value;
+    tempUploads.themeDark = this.value;
+    tempUploads.themeLight = this.value;
+  });
+
+  /* --- FORM POPULATION --- */
+  function populateAllForms() {
+    const b = siteData.branding || {};
+    const h = siteData.home || {};
+    const hero = h.hero || {};
+    const about = h.about || {};
+    const video = h.video || {};
+    const counters = h.counters || {};
+    const tc = siteData.themeColors || {};
+    const fp = siteData.flashPopup || {};
+
+    // Colors
+    if (tc.primary) {
+      document.getElementById("themePrimaryColorInput").value = tc.primary;
+      document.getElementById("themePrimaryColorText").value = tc.primary;
+      document.getElementById("statColorPreview").textContent = tc.primary;
+      document.getElementById("statColorPreview").style.color = tc.primary;
+    }
+
+    // Flash Popup (Strict Check)
+    const isPopupOn = (fp.enabled === true || fp.enabled === "true" || fp.enabled === 1);
+    document.getElementById("flashPopupToggle").checked = isPopupOn;
+    document.getElementById("flashPopupTitle").value = fp.title || "";
+    document.getElementById("flashPopupMsg").value = fp.message || "";
+    document.getElementById("flashPopupBtnText").value = fp.btnText || "Get Free Quote";
+    document.getElementById("flashPopupBtnLink").value = fp.btnLink || "contact.html";
+    if (fp.image) document.getElementById("flashPopupImgThumb").src = fp.image;
+    document.getElementById("statPopupStatus").textContent = isPopupOn ? "ON" : "OFF";
+    document.getElementById("statPopupStatus").className = isPopupOn ? "fw-bold mb-1 text-success" : "fw-bold mb-1 text-danger";
+
+    // Logos
+    if (b.logoUrl) {
+      document.getElementById("sidebarLogo").src = b.logoUrl;
+      document.getElementById("loginCardLogo").src = b.logoUrl;
+      document.getElementById("setLogoThumb").src = b.logoUrl;
+    }
+    if (b.faviconUrl) document.getElementById("setFavThumb").src = b.faviconUrl;
+    if (hero.heroImg) document.getElementById("flashPicThumb").src = hero.heroImg;
+
+    // Header & Footer
+    document.getElementById("hfHotline").value = b.hotline || "";
+    document.getElementById("hfWhatsapp").value = b.whatsapp || "";
+    document.getElementById("hfEmail").value = b.email || "";
+    document.getElementById("hfFooterSummary").value = b.slogan || "";
+    document.getElementById("hfCopyright").value = b.copyright || "";
+    if (b.socialLinks) {
+      document.getElementById("hfFb").value = b.socialLinks.facebook || "";
+      document.getElementById("hfWa").value = b.socialLinks.whatsapp || "";
+      document.getElementById("hfYt").value = b.socialLinks.youtube || "";
+      document.getElementById("hfIn").value = b.socialLinks.linkedin || "";
+    }
+
+    // Branding Settings
+    document.getElementById("setSiteTitle").value = b.siteTitle || "";
+    document.getElementById("setSlogan").value = b.slogan || "";
+
+    // Home Hero & Satisfied Clients
+    document.getElementById("homeHeroTagline").value = hero.tagline || "";
+    document.getElementById("homeHeroSubtitle").value = hero.subtitle || "";
+    document.getElementById("homeHeroTitle").value = hero.title || "";
+    document.getElementById("homeHeroRating").value = hero.rating || "4.8";
+    document.getElementById("homeClientCountText").value = hero.clientCountText || "Satisfied Clients With Trust Security";
+    document.getElementById("homeHeroDesc").value = hero.description || "";
+    if (hero.clientAvatarImg) document.getElementById("homeClientAvatarThumb").src = hero.clientAvatarImg;
+
+    // "Safeguarding Peace of Mind" (About Section)
+    document.getElementById("homeAboutBadge").value = about.badge || "Who We Are";
+    document.getElementById("homeAboutTitle").value = about.title || "Safeguarding Your Peace of Mind";
+    document.getElementById("homeAboutDesc").value = about.description || "";
+    if (about.aboutImg) document.getElementById("homeAboutImgThumb").src = about.aboutImg;
+    if (about.stat1) {
+      document.getElementById("hStat1Pct").value = about.stat1.percent || "21%";
+      document.getElementById("hStat1Txt").value = about.stat1.text || "";
+    }
+    if (about.stat2) {
+      document.getElementById("hStat2Pct").value = about.stat2.percent || "30%";
+      document.getElementById("hStat2Txt").value = about.stat2.text || "";
+    }
+    if (about.stat3) {
+      document.getElementById("hStat3Pct").value = about.stat3.percent || "12K";
+      document.getElementById("hStat3Txt").value = about.stat3.text || "";
+    }
+
+    // Home Video
+    if (video.videoType === "local") {
+      document.getElementById("modeLocal").checked = true;
+    } else {
+      document.getElementById("modeYoutube").checked = true;
+    }
+    toggleVideoMode();
+
+    document.getElementById("homeVideoUrl").value = video.youtubeUrl || "";
+    document.getElementById("homeVideoHeading").value = video.heading || "";
+    document.getElementById("homeBrandTitle").value = video.brandTitle || "";
+    if (video.videoCoverImg) document.getElementById("videoCoverThumb").src = video.videoCoverImg;
+
+    // Counters
+    document.getElementById("homeStat1Num").value = counters.stat1Number || "";
+    document.getElementById("homeStat1Lbl").value = counters.stat1Label || "";
+    document.getElementById("homeStat2Num").value = counters.stat2Number || "";
+    document.getElementById("homeStat2Lbl").value = counters.stat2Label || "";
+    document.getElementById("homeStat3Num").value = counters.stat3Number || "";
+    document.getElementById("homeStat3Lbl").value = counters.stat3Label || "";
+    document.getElementById("homeStat4Num").value = counters.stat4Number || "";
+    document.getElementById("homeStat4Lbl").value = counters.stat4Label || "";
+
+    // Section Titles
+    if (h.teamHeader) {
+      document.getElementById("teamSecTitle").value = h.teamHeader.title || "";
+      document.getElementById("teamSecDesc").value = h.teamHeader.description || "";
+    }
+    if (h.blogHeader) {
+      document.getElementById("blogSecTitle").value = h.blogHeader.title || "";
+      document.getElementById("blogSecDesc").value = h.blogHeader.description || "";
+    }
+
+    // About Us Page Tab
+    document.getElementById("aboutHeading").value = about.title || "";
+    document.getElementById("aboutBadge").value = about.badge || "";
+    document.getElementById("aboutMainDesc").value = about.description || "";
+
+    // Branches
+    if (b.dhakaBranch) {
+      document.getElementById("dhakaAddr").value = b.dhakaBranch.address || "";
+      document.getElementById("dhakaHours").value = b.dhakaBranch.hours || "";
+      document.getElementById("dhakaPhone").value = b.dhakaBranch.phone || "";
+    }
+    if (b.rajshahiBranch) {
+      document.getElementById("rajshahiAddr").value = b.rajshahiBranch.address || "";
+      document.getElementById("rajshahiHours").value = b.rajshahiBranch.hours || "";
+      document.getElementById("rajshahiPhone").value = b.rajshahiBranch.phone || "";
+    }
+
+    renderProductsList();
+    renderServicesList();
+    renderTeamList();
+    renderBlogList();
+    renderInbox();
+  }
+
+  /* --- FILE TO PREVIEW HELPER --- */
+  function setupFileToPreview(inputId, thumbId, key) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    input.addEventListener("change", function () {
+      if (this.files && this.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const b64 = e.target.result;
+          if (thumbId) document.getElementById(thumbId).src = b64;
+          tempUploads[key] = b64;
+          showToast("File uploaded!");
+        };
+        reader.readAsDataURL(this.files[0]);
+      }
+    });
+  }
+
+  setupFileToPreview("logoUploadFile", "setLogoThumb", "logoUrl");
+  setupFileToPreview("favUploadFile", "setFavThumb", "faviconUrl");
+  setupFileToPreview("flashPicUploadFile", "flashPicThumb", "flashPicUrl");
+  setupFileToPreview("videoCoverFileInput", "videoCoverThumb", "videoCoverUrl");
+  setupFileToPreview("flashPopupFileInput", "flashPopupImgThumb", "flashPopupImgUrl");
+  setupFileToPreview("homeAboutImgFile", "homeAboutImgThumb", "homeAboutImgUrl");
+  setupFileToPreview("homeClientAvatarFile", "homeClientAvatarThumb", "homeClientAvatarUrl");
+
+  // Local Video Upload Handler
+  document.getElementById("localVideoFileInput").addEventListener("change", function () {
+    if (this.files && this.files[0]) {
+      const file = this.files[0];
+      document.getElementById("localVideoFileName").textContent = file.name + " (" + (file.size / (1024*1024)).toFixed(1) + " MB)";
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        tempUploads.localVideoUrl = e.target.result;
+        showToast("Video file loaded: " + file.name);
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  /* --- TAB SAVE HANDLERS --- */
+  function handleSaveHeaderFooter(e) {
+    e.preventDefault();
+    siteData.branding = siteData.branding || {};
+    siteData.branding.hotline = document.getElementById("hfHotline").value;
+    siteData.branding.hotlineTel = document.getElementById("hfHotline").value.replace(/[^0-9+]/g, "");
+    siteData.branding.whatsapp = document.getElementById("hfWhatsapp").value;
+    siteData.branding.whatsappLink = "https://wa.me/88" + document.getElementById("hfWhatsapp").value.replace(/[^0-9]/g, "");
+    siteData.branding.email = document.getElementById("hfEmail").value;
+    siteData.branding.copyright = document.getElementById("hfCopyright").value;
+    siteData.branding.socialLinks = {
+      facebook: document.getElementById("hfFb").value,
+      whatsapp: document.getElementById("hfWa").value,
+      youtube: document.getElementById("hfYt").value,
+      linkedin: document.getElementById("hfIn").value
+    };
+    saveData("Header and footer details saved!");
+  }
+
+  function handleSaveSettings(e) {
+    e.preventDefault();
+    
+    // 1. Theme Colors
+    const priColor = document.getElementById("themePrimaryColorText").value.trim() || "#0ea5e9";
+    siteData.themeColors = {
+      primary: priColor,
+      primaryDark: tempUploads.themeDark || priColor,
+      primaryLight: tempUploads.themeLight || priColor
+    };
+
+    // 2. Flash Popup (Strict Boolean)
+    const isChecked = document.getElementById("flashPopupToggle").checked;
+    siteData.flashPopup = {
+      enabled: isChecked,
+      title: document.getElementById("flashPopupTitle").value,
+      message: document.getElementById("flashPopupMsg").value,
+      btnText: document.getElementById("flashPopupBtnText").value,
+      btnLink: document.getElementById("flashPopupBtnLink").value,
+      image: tempUploads.flashPopupImgUrl || (siteData.flashPopup ? siteData.flashPopup.image : "assets/img/all-images/about-img1.png")
+    };
+
+    document.getElementById("statPopupStatus").textContent = isChecked ? "ON" : "OFF";
+    document.getElementById("statPopupStatus").className = isChecked ? "fw-bold mb-1 text-success" : "fw-bold mb-1 text-danger";
+
+    // 3. Branding
+    siteData.branding = siteData.branding || {};
+    siteData.branding.siteTitle = document.getElementById("setSiteTitle").value;
+    siteData.branding.slogan = document.getElementById("setSlogan").value;
+    if (tempUploads.logoUrl) {
+      siteData.branding.logoUrl = tempUploads.logoUrl;
+      document.getElementById("sidebarLogo").src = tempUploads.logoUrl;
+    }
+    if (tempUploads.faviconUrl) siteData.branding.faviconUrl = tempUploads.faviconUrl;
+
+    // 4. Password Change Check
+    const currP = document.getElementById("currPassInput").value.trim();
+    const newP = document.getElementById("newPassInput").value.trim();
+    const confP = document.getElementById("confirmPassInput").value.trim();
+
+    if (newP !== "") {
+      const activeP = getActiveAdminPassword();
+      if (currP !== activeP) {
+        alert("Password change failed: Current password is incorrect!");
+        return;
+      }
+      if (newP !== confP) {
+        alert("Password change failed: New password and confirm password do not match!");
+        return;
+      }
+      siteData.adminPassword = newP;
+      document.getElementById("currPassInput").value = "";
+      document.getElementById("newPassInput").value = "";
+      document.getElementById("confirmPassInput").value = "";
+      showToast("Admin password changed successfully!");
+    }
+
+    saveData("Settings, theme colors and flash popup saved!");
+  }
+
+  function handleSaveHome(e) {
+    e.preventDefault();
+    siteData.home = siteData.home || {};
+    
+    // Hero & Satisfied Clients
+    siteData.home.hero = siteData.home.hero || {};
+    siteData.home.hero.tagline = document.getElementById("homeHeroTagline").value;
+    siteData.home.hero.subtitle = document.getElementById("homeHeroSubtitle").value;
+    siteData.home.hero.title = document.getElementById("homeHeroTitle").value;
+    siteData.home.hero.rating = document.getElementById("homeHeroRating").value;
+    siteData.home.hero.clientCountText = document.getElementById("homeClientCountText").value;
+    siteData.home.hero.description = document.getElementById("homeHeroDesc").value;
+    if (tempUploads.flashPicUrl) siteData.home.hero.heroImg = tempUploads.flashPicUrl;
+    if (tempUploads.homeClientAvatarUrl) siteData.home.hero.clientAvatarImg = tempUploads.homeClientAvatarUrl;
+
+    // "Safeguarding Peace of Mind" (About)
+    siteData.home.about = siteData.home.about || {};
+    siteData.home.about.badge = document.getElementById("homeAboutBadge").value;
+    siteData.home.about.title = document.getElementById("homeAboutTitle").value;
+    siteData.home.about.description = document.getElementById("homeAboutDesc").value;
+    if (tempUploads.homeAboutImgUrl) siteData.home.about.aboutImg = tempUploads.homeAboutImgUrl;
+    siteData.home.about.stat1 = {
+      percent: document.getElementById("hStat1Pct").value,
+      text: document.getElementById("hStat1Txt").value
+    };
+    siteData.home.about.stat2 = {
+      percent: document.getElementById("hStat2Pct").value,
+      text: document.getElementById("hStat2Txt").value
+    };
+    siteData.home.about.stat3 = {
+      percent: document.getElementById("hStat3Pct").value,
+      text: document.getElementById("hStat3Txt").value
+    };
+
+    // Video
+    siteData.home.video = siteData.home.video || {};
+    siteData.home.video.videoType = document.getElementById("modeLocal").checked ? "local" : "youtube";
+    siteData.home.video.youtubeUrl = document.getElementById("homeVideoUrl").value;
+    siteData.home.video.heading = document.getElementById("homeVideoHeading").value;
+    siteData.home.video.brandTitle = document.getElementById("homeBrandTitle").value;
+    if (tempUploads.videoCoverUrl) siteData.home.video.videoCoverImg = tempUploads.videoCoverUrl;
+    if (tempUploads.localVideoUrl) siteData.home.video.localVideoUrl = tempUploads.localVideoUrl;
+
+    // Counters
+    siteData.home.counters = {
+      stat1Number: document.getElementById("homeStat1Num").value,
+      stat1Label: document.getElementById("homeStat1Lbl").value,
+      stat2Number: document.getElementById("homeStat2Num").value,
+      stat2Label: document.getElementById("homeStat2Lbl").value,
+      stat3Number: document.getElementById("homeStat3Num").value,
+      stat3Label: document.getElementById("homeStat3Lbl").value,
+      stat4Number: document.getElementById("homeStat4Num").value,
+      stat4Label: document.getElementById("homeStat4Lbl").value
+    };
+
+    // Headers
+    siteData.home.teamHeader = {
+      tagline: "Our Team",
+      title: document.getElementById("teamSecTitle").value,
+      description: document.getElementById("teamSecDesc").value
+    };
+    siteData.home.blogHeader = {
+      tagline: "Our Blog",
+      title: document.getElementById("blogSecTitle").value,
+      description: document.getElementById("blogSecDesc").value
+    };
+
+    saveData("Homepage content updated successfully!");
+  }
+
+  function handleSaveAbout(e) {
+    e.preventDefault();
+    siteData.home = siteData.home || {};
+    siteData.home.about = siteData.home.about || {};
+    siteData.home.about.title = document.getElementById("aboutHeading").value;
+    siteData.home.about.badge = document.getElementById("aboutBadge").value;
+    siteData.home.about.description = document.getElementById("aboutMainDesc").value;
+    saveData("About Us information saved!");
+  }
+
+  function handleSaveContactBranches(e) {
+    e.preventDefault();
+    siteData.branding = siteData.branding || {};
+    siteData.branding.dhakaBranch = {
+      title: "Dhaka Branch (Head Office)",
+      address: document.getElementById("dhakaAddr").value,
+      hours: document.getElementById("dhakaHours").value,
+      phone: document.getElementById("dhakaPhone").value
+    };
+    siteData.branding.rajshahiBranch = {
+      title: "Rajshahi Branch",
+      address: document.getElementById("rajshahiAddr").value,
+      hours: document.getElementById("rajshahiHours").value,
+      phone: document.getElementById("rajshahiPhone").value
+    };
+    saveData("Branch locations updated!");
+  }
+
+  /* --- PRODUCTS MANAGER --- */
+  let currentProdImgB64 = null;
+
+  function renderProductsList() {
+    const list = document.getElementById("prodCardsList");
+    if (!list) return;
+    const prods = siteData.products || [];
+    document.getElementById("statProdCount").textContent = prods.length;
+    list.innerHTML = "";
+
+    prods.forEach((p, idx) => {
+      const col = document.createElement("div");
+      col.className = "col-lg-6";
+      col.innerHTML = `
+        <div class="cms-card h-100 d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <span class="badge bg-info text-dark">${p.tag || 'Hardware'}</span>
+            <div>
+              <button class="btn btn-sm btn-outline-primary me-1" onclick="openProductModal(${idx})"><i class="fa-solid fa-pen"></i> Edit</button>
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteProductItem(${idx})"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          </div>
+          <div class="row align-items-center mb-3">
+            <div class="col-4 text-center">
+              <img src="${p.img || 'assets/img/all-images/shop-img1.png'}" class="img-fluid rounded border p-1" style="max-height: 80px;">
+            </div>
+            <div class="col-8">
+              <h5 class="fw-bold mb-1">${p.title || 'Product'}</h5>
+              <p class="text-muted small mb-0">${p.desc || ''}</p>
+            </div>
+          </div>
+          <div class="mt-auto border-top pt-2">
+            <ul class="small text-muted mb-0 ps-3">
+              ${(p.specs || []).map(s => `<li>${s}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+      `;
+      list.appendChild(col);
+    });
+  }
+
+  function openProductModal(idx) {
+    document.getElementById("prodEditIdx").value = idx;
+    if (idx >= 0) {
+      const p = siteData.products[idx];
+      document.getElementById("productModalTitle").textContent = "Edit Product: " + p.title;
+      document.getElementById("modalProdTitle").value = p.title || "";
+      document.getElementById("modalProdTag").value = p.tag || "";
+      document.getElementById("modalProdDesc").value = p.desc || "";
+      document.getElementById("modalProdSpecs").value = (p.specs || []).join("\n");
+      document.getElementById("modalProdImgThumb").src = p.img || "assets/img/all-images/shop-img1.png";
+      currentProdImgB64 = p.img || null;
+    } else {
+      document.getElementById("productModalTitle").textContent = "Add New BDCOM / CCTV Product";
+      document.getElementById("modalProdTitle").value = "";
+      document.getElementById("modalProdTag").value = "";
+      document.getElementById("modalProdDesc").value = "";
+      document.getElementById("modalProdSpecs").value = "";
+      document.getElementById("modalProdImgThumb").src = "assets/img/all-images/shop-img1.png";
+      currentProdImgB64 = null;
+    }
+    productModal.show();
+  }
+
+  document.getElementById("modalProdImgFile").addEventListener("change", function () {
+    if (this.files && this.files[0]) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        currentProdImgB64 = e.target.result;
+        document.getElementById("modalProdImgThumb").src = currentProdImgB64;
+      };
+      reader.readAsDataURL(this.files[0]);
+    }
+  });
+
+  document.getElementById("productEditForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const idx = parseInt(document.getElementById("prodEditIdx").value, 10);
+    const specsArr = document.getElementById("modalProdSpecs").value.split("\n").filter(s => s.trim().length > 0);
+
+    const item = {
+      id: "prod-" + Date.now(),
+      title: document.getElementById("modalProdTitle").value,
+      tag: document.getElementById("modalProdTag").value,
+      desc: document.getElementById("modalProdDesc").value,
+      img: currentProdImgB64 || "assets/img/all-images/shop-img1.png",
+      specs: specsArr
+    };
+
+    siteData.products = siteData.products || [];
+    if (idx >= 0) {
+      siteData.products[idx] = item;
+    } else {
+      siteData.products.push(item);
+    }
+    saveData("Product saved successfully!");
+    productModal.hide();
+    renderProductsList();
+  });
+
+  function deleteProductItem(idx) {
+    if (confirm("Delete this product from catalog?")) {
+      siteData.products.splice(idx, 1);
+      saveData("Product removed!");
+      renderProductsList();
+    }
+  }
+
+  /* --- SERVICES MANAGER --- */
+  function renderServicesList() {
+    const list = document.getElementById("servCardsList");
+    if (!list) return;
+    const servs = siteData.services || [];
+    list.innerHTML = "";
+
+    servs.forEach((s, idx) => {
+      const col = document.createElement("div");
+      col.className = "col-lg-4 col-md-6";
+      col.innerHTML = `
+        <div class="cms-card h-100 d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="p-2 bg-light border rounded">
+              <img src="${s.icon || 'assets/img/icons/service-icons1.svg'}" style="max-height: 36px;">
+            </div>
+            <div>
+              <button class="btn btn-sm btn-outline-primary me-1" onclick="openServiceModal(${idx})"><i class="fa-solid fa-pen"></i></button>
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteServiceItem(${idx})"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          </div>
+          <h5 class="fw-bold mb-2">${s.title || 'Service'}</h5>
+          <p class="text-muted small mb-0">${s.desc || ''}</p>
+        </div>
+      `;
+      list.appendChild(col);
+    });
+  }
+
+  function openServiceModal(idx) {
+    document.getElementById("servEditIdx").value = idx;
+    if (idx >= 0) {
+      const s = siteData.services[idx];
+      document.getElementById("serviceModalTitle").textContent = "Edit Service: " + s.title;
+      document.getElementById("modalServTitle").value = s.title || "";
+      document.getElementById("modalServDesc").value = s.desc || "";
+      document.getElementById("modalServIcon").value = s.icon || "assets/img/icons/service-icons1.svg";
+    } else {
+      document.getElementById("serviceModalTitle").textContent = "Add New Service Offering";
+      document.getElementById("modalServTitle").value = "";
+      document.getElementById("modalServDesc").value = "";
+    }
+    serviceModal.show();
+  }
+
+  document.getElementById("serviceEditForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const idx = parseInt(document.getElementById("servEditIdx").value, 10);
+    const item = {
+      id: "serv-" + Date.now(),
+      title: document.getElementById("modalServTitle").value,
+      desc: document.getElementById("modalServDesc").value,
+      icon: document.getElementById("modalServIcon").value,
+      link: "services.html"
+    };
+
+    siteData.services = siteData.services || [];
+    if (idx >= 0) {
+      siteData.services[idx] = item;
+    } else {
+      siteData.services.push(item);
+    }
+    saveData("Service updated!");
+    serviceModal.hide();
+    renderServicesList();
+  });
+
+  function deleteServiceItem(idx) {
+    if (confirm("Delete this service?")) {
+      siteData.services.splice(idx, 1);
+      saveData("Service removed!");
+      renderServicesList();
+    }
+  }
+
+  /* --- TEAM MEMBERS MANAGER --- */
+  let currentTeamImgB64 = null;
+
+  function renderTeamList() {
+    const grid = document.getElementById("teamCardsGrid");
+    if (!grid) return;
+    const team = siteData.team || [];
+    grid.innerHTML = "";
+
+    team.forEach((tm, idx) => {
+      const col = document.createElement("div");
+      col.className = "col-md-4";
+      col.innerHTML = `
+        <div class="p-3 border rounded-3 bg-light text-center h-100 d-flex flex-column align-items-center">
+          <img src="${tm.img || 'assets/img/all-images/team-img1.png'}" class="rounded-circle border mb-2" style="width: 70px; height: 70px; object-fit: cover;">
+          <h6 class="fw-bold mb-0">${tm.name || 'Member'}</h6>
+          <small class="text-muted mb-2">${tm.role || 'Role'}</small>
+          <div class="mt-auto d-flex gap-1">
+            <button class="btn btn-sm btn-outline-primary" onclick="openTeamModal(${idx})"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn btn-sm btn-outline-danger" onclick="deleteTeamItem(${idx})"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>
+      `;
+      grid.appendChild(col);
+    });
+  }
+
+  function openTeamModal(idx) {
+    document.getElementById("teamEditIdx").value = idx;
+    if (idx >= 0) {
+      const tm = siteData.team[idx];
+      document.getElementById("teamModalTitle").textContent = "Edit Member: " + tm.name;
+      document.getElementById("modalTeamName").value = tm.name || "";
+      document.getElementById("modalTeamRole").value = tm.role || "";
+      document.getElementById("modalTeamImgThumb").src = tm.img || "assets/img/all-images/team-img1.png";
+      currentTeamImgB64 = tm.img || null;
+    } else {
+      document.getElementById("teamModalTitle").textContent = "Add Team Member";
+      document.getElementById("modalTeamName").value = "";
+      document.getElementById("modalTeamRole").value = "";
+      document.getElementById("modalTeamImgThumb").src = "assets/img/all-images/team-img1.png";
+      currentTeamImgB64 = null;
+    }
+    teamModal.show();
+  }
+
+  document.getElementById("modalTeamImgFile").addEventListener("change", function () {
+    if (this.files && this.files[0]) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        currentTeamImgB64 = e.target.result;
+        document.getElementById("modalTeamImgThumb").src = currentTeamImgB64;
+      };
+      reader.readAsDataURL(this.files[0]);
+    }
+  });
+
+  document.getElementById("teamEditForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const idx = parseInt(document.getElementById("teamEditIdx").value, 10);
+    const item = {
+      id: "team-" + Date.now(),
+      name: document.getElementById("modalTeamName").value,
+      role: document.getElementById("modalTeamRole").value,
+      img: currentTeamImgB64 || "assets/img/all-images/team-img1.png",
+      facebook: "https://facebook.com",
+      whatsapp: "https://wa.me/8801911660036",
+      linkedin: "https://linkedin.com"
+    };
+
+    siteData.team = siteData.team || [];
+    if (idx >= 0) {
+      siteData.team[idx] = item;
+    } else {
+      siteData.team.push(item);
+    }
+    saveData("Team member saved!");
+    teamModal.hide();
+    renderTeamList();
+  });
+
+  function deleteTeamItem(idx) {
+    if (confirm("Delete this team member?")) {
+      siteData.team.splice(idx, 1);
+      saveData("Team member removed!");
+      renderTeamList();
+    }
+  }
+
+  /* --- BLOG POSTS MANAGER --- */
+  let currentBlogAuthorB64 = null;
+  let currentBlogCoverB64 = null;
+
+  function renderBlogList() {
+    const grid = document.getElementById("blogCardsGrid");
+    if (!grid) return;
+    const blogs = siteData.blogs || [];
+    grid.innerHTML = "";
+
+    blogs.forEach((b, idx) => {
+      const col = document.createElement("div");
+      col.className = "col-md-4";
+      col.innerHTML = `
+        <div class="p-3 border rounded-3 bg-light text-start h-100 d-flex flex-column">
+          <img src="${b.coverImg || 'assets/img/all-images/blog-img1.png'}" class="rounded w-100 mb-2" style="height: 110px; object-fit: cover;">
+          <small class="text-primary fw-bold mb-1">${b.date || '12 March 2024'}</small>
+          <h6 class="fw-bold text-dark mb-1 text-truncate" title="${b.title}">${b.title || 'Article'}</h6>
+          <small class="text-muted mb-2">${b.author || 'Author'}</small>
+          <div class="mt-auto d-flex gap-1 justify-content-end">
+            <button class="btn btn-sm btn-outline-primary" onclick="openBlogModal(${idx})"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn btn-sm btn-outline-danger" onclick="deleteBlogItem(${idx})"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>
+      `;
+      grid.appendChild(col);
+    });
+  }
+
+  function openBlogModal(idx) {
+    document.getElementById("blogEditIdx").value = idx;
+    if (idx >= 0) {
+      const b = siteData.blogs[idx];
+      document.getElementById("blogModalTitle").textContent = "Edit Blog Article";
+      document.getElementById("modalBlogTitle").value = b.title || "";
+      document.getElementById("modalBlogDate").value = b.date || "12 March 2024";
+      document.getElementById("modalBlogAuthor").value = b.author || "";
+      document.getElementById("modalBlogDesc").value = b.desc || "";
+      document.getElementById("modalBlogAuthorThumb").src = b.authorImg || "assets/img/all-images/blog-img4.png";
+      document.getElementById("modalBlogCoverThumb").src = b.coverImg || "assets/img/all-images/blog-img1.png";
+      currentBlogAuthorB64 = b.authorImg || null;
+      currentBlogCoverB64 = b.coverImg || null;
+    } else {
+      document.getElementById("blogModalTitle").textContent = "Add Blog Article";
+      document.getElementById("modalBlogTitle").value = "";
+      document.getElementById("modalBlogDate").value = "12 March 2024";
+      document.getElementById("modalBlogAuthor").value = "";
+      document.getElementById("modalBlogDesc").value = "";
+      document.getElementById("modalBlogAuthorThumb").src = "assets/img/all-images/blog-img4.png";
+      document.getElementById("modalBlogCoverThumb").src = "assets/img/all-images/blog-img1.png";
+      currentBlogAuthorB64 = null;
+      currentBlogCoverB64 = null;
+    }
+    blogModal.show();
+  }
+
+  document.getElementById("modalBlogAuthorFile").addEventListener("change", function () {
+    if (this.files && this.files[0]) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        currentBlogAuthorB64 = e.target.result;
+        document.getElementById("modalBlogAuthorThumb").src = currentBlogAuthorB64;
+      };
+      reader.readAsDataURL(this.files[0]);
+    }
+  });
+
+  document.getElementById("modalBlogCoverFile").addEventListener("change", function () {
+    if (this.files && this.files[0]) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        currentBlogCoverB64 = e.target.result;
+        document.getElementById("modalBlogCoverThumb").src = currentBlogCoverB64;
+      };
+      reader.readAsDataURL(this.files[0]);
+    }
+  });
+
+  document.getElementById("blogEditForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const idx = parseInt(document.getElementById("blogEditIdx").value, 10);
+    const item = {
+      id: "blog-" + Date.now(),
+      title: document.getElementById("modalBlogTitle").value,
+      date: document.getElementById("modalBlogDate").value,
+      author: document.getElementById("modalBlogAuthor").value,
+      authorImg: currentBlogAuthorB64 || "assets/img/all-images/blog-img4.png",
+      coverImg: currentBlogCoverB64 || "assets/img/all-images/blog-img1.png",
+      desc: document.getElementById("modalBlogDesc").value,
+      link: "services.html"
+    };
+
+    siteData.blogs = siteData.blogs || [];
+    if (idx >= 0) {
+      siteData.blogs[idx] = item;
+    } else {
+      siteData.blogs.push(item);
+    }
+    saveData("Blog article saved!");
+    blogModal.hide();
+    renderBlogList();
+  });
+
+  function deleteBlogItem(idx) {
+    if (confirm("Delete this blog article?")) {
+      siteData.blogs.splice(idx, 1);
+      saveData("Blog article removed!");
+      renderBlogList();
+    }
+  }
+
+  /* --- INBOX MANAGER --- */
+  function getInbox() {
+    try {
+      return JSON.parse(localStorage.getItem(INBOX_KEY) || "[]");
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveInbox(inbox) {
+    localStorage.setItem(INBOX_KEY, JSON.stringify(inbox));
+  }
+
+  function renderInbox() {
+    const inbox = getInbox();
+    document.getElementById("statInqCount").textContent = inbox.length;
+    const badge = document.getElementById("inboxCountBadge");
+    if (inbox.length > 0) {
+      badge.textContent = inbox.length;
+      badge.classList.remove("d-none");
+    } else {
+      badge.classList.add("d-none");
+    }
+
+    const dashTbody = document.getElementById("dashInquiriesTbody");
+    if (dashTbody) {
+      dashTbody.innerHTML = "";
+      if (inbox.length === 0) {
+        dashTbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-4">No quotation inquiries yet.</td></tr>';
+      } else {
+        inbox.slice(0, 5).forEach(item => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td><small class="text-muted">${item.date || 'N/A'}</small></td>
+            <td><strong>${item.name || 'Anonymous'}</strong></td>
+            <td><a href="tel:${item.phone}" class="text-primary">${item.phone || 'N/A'}</a></td>
+            <td><span class="badge bg-secondary">${item.branch || 'General'}</span></td>
+            <td><span class="badge bg-info text-dark">${item.service || 'CCTV'}</span></td>
+            <td><span class="badge bg-success">${item.status || 'New'}</span></td>
+          `;
+          dashTbody.appendChild(tr);
+        });
+      }
+    }
+
+    const inboxTbody = document.getElementById("inboxTbody");
+    if (inboxTbody) {
+      inboxTbody.innerHTML = "";
+      if (inbox.length === 0) {
+        inboxTbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted py-5">No inquiries yet.</td></tr>';
+      } else {
+        inbox.forEach((item, idx) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td><small class="text-muted">${item.date || 'N/A'}</small></td>
+            <td><strong>${item.name || 'Anonymous'}</strong></td>
+            <td>
+              <a href="tel:${item.phone}" class="fw-bold text-dark text-decoration-none me-2"><i class="fa-solid fa-phone text-primary"></i> ${item.phone || 'N/A'}</a>
+              <a href="https://wa.me/88${(item.phone || '').replace(/[^0-9]/g, '')}" target="_blank" class="text-success"><i class="fa-brands fa-whatsapp fs-5"></i></a>
+            </td>
+            <td><span class="badge bg-secondary">${item.branch || 'General'}</span></td>
+            <td><span class="badge bg-info text-dark">${item.service || 'CCTV'}</span></td>
+            <td><small class="text-dark">${item.message || '-'}</small></td>
+            <td>
+              <select class="form-select form-select-sm" style="width: 120px;" onchange="updateInqStatus(${idx}, this.value)">
+                <option value="New" ${item.status === 'New' ? 'selected' : ''}>New</option>
+                <option value="In Progress" ${item.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                <option value="Contacted" ${item.status === 'Contacted' ? 'selected' : ''}>Contacted</option>
+                <option value="Closed" ${item.status === 'Closed' ? 'selected' : ''}>Closed</option>
+              </select>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteInq(${idx})"><i class="fa-solid fa-trash"></i></button>
+            </td>
+          `;
+          inboxTbody.appendChild(tr);
+        });
+      }
+    }
+  }
+
+  function updateInqStatus(idx, status) {
+    const inbox = getInbox();
+    inbox[idx].status = status;
+    saveInbox(inbox);
+    showToast("Inquiry status: " + status);
+  }
+
+  function deleteInq(idx) {
+    if (confirm("Delete this inquiry?")) {
+      const inbox = getInbox();
+      inbox.splice(idx, 1);
+      saveInbox(inbox);
+      renderInbox();
+    }
+  }
+
+  function exportInboxCSV() {
+    const inbox = getInbox();
+    if (inbox.length === 0) {
+      alert("Inbox is empty!");
+      return;
+    }
+    let csv = "ID,Date,Name,Phone,Branch,Service,Status,Message\n";
+    inbox.forEach(i => {
+      csv += `"${i.id || ''}","${i.date || ''}","${i.name || ''}","${i.phone || ''}","${i.branch || ''}","${i.service || ''}","${i.status || ''}","${(i.message || '').replace(/"/g, '""')}"\n`;
+    });
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "trust-security-inquiries-" + Date.now() + ".csv";
+    a.click();
+  }
+
+  // Start on load
+  init();
+</script>
+</body>
+</html>
