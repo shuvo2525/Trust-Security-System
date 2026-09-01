@@ -1,6 +1,6 @@
 /**
  * Trust Security System - Dynamic CMS Frontend Synchronizer
- * 100% Robust Deep Synchronization Engine with Strict Boolean Respect
+ * Multi-tiered Live Synchronizer: Server API -> site-data.json -> default-content.js -> localStorage
  */
 (function () {
   "use strict";
@@ -20,18 +20,36 @@
     return output;
   }
 
-  function getSiteData() {
+  function getSiteDataAsync(callback) {
     var baseData = window.DEFAULT_SITE_DATA || {};
+    var localData = null;
     try {
-      var localData = localStorage.getItem("trust_security_site_data");
-      if (localData) {
-        var parsed = JSON.parse(localData);
-        return deepMerge(baseData, parsed);
-      }
-    } catch (e) {
-      console.warn("CMS Sync: Loading default data", e);
+      var raw = localStorage.getItem("trust_security_site_data");
+      if (raw) localData = JSON.parse(raw);
+    } catch (e) {}
+
+    // 1. Try to fetch live shared data from server / JSON file (Works across all browsers on live server & local server)
+    if (window.location.protocol.startsWith("http")) {
+      var apiUrl = window.location.pathname.includes("/api/") ? "api/get.php" : "data/site-data.json?t=" + Date.now();
+      fetch(apiUrl, { cache: "no-store" })
+        .then(function (res) {
+          if (res.ok) return res.json();
+          throw new Error("API not available");
+        })
+        .then(function (serverData) {
+          var merged = deepMerge(baseData, serverData);
+          if (localData) merged = deepMerge(merged, localData);
+          callback(merged);
+        })
+        .catch(function () {
+          var fallback = localData ? deepMerge(baseData, localData) : baseData;
+          callback(fallback);
+        });
+    } else {
+      // file:/// mode
+      var fallback = localData ? deepMerge(baseData, localData) : baseData;
+      callback(fallback);
     }
-    return baseData;
   }
 
   // 1. Comprehensive Dynamic Theme Colors
@@ -123,7 +141,6 @@
       .counter-boxarea .counter,
       .counter-box h2,
       .counter-box h2 span,
-      .hero-main-area .hero-subtitle,
       .sector-icon,
       .service-boxarea .icons i,
       .branch-info-item i,
@@ -535,13 +552,21 @@
           status: "New"
         };
 
+        // Try to submit via API
+        if (window.location.protocol.startsWith("http")) {
+          var inqUrl = window.location.pathname.includes("/api/") ? "api/inbox.php" : "/api/inbox";
+          fetch(inqUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(inquiry)
+          }).catch(function () {});
+        }
+
         try {
           var inboxes = JSON.parse(localStorage.getItem("trust_security_inbox") || "[]");
           inboxes.unshift(inquiry);
           localStorage.setItem("trust_security_inbox", JSON.stringify(inboxes));
-        } catch (err) {
-          console.error("Failed to store inquiry", err);
-        }
+        } catch (err) {}
 
         alert("Thank you! Your quotation request has been submitted successfully.\nOur engineering team will connect with you shortly.\nHotline: 01911-660036");
         form.reset();
@@ -550,14 +575,15 @@
   }
 
   function runAllSync() {
-    var data = getSiteData();
-    applyThemeColors(data);
-    syncBranding(data);
-    syncHomePage(data);
-    syncProducts(data);
-    syncServices(data);
-    setupFlashPopup(data);
-    setupInquiryCatcher();
+    getSiteDataAsync(function (data) {
+      applyThemeColors(data);
+      syncBranding(data);
+      syncHomePage(data);
+      syncProducts(data);
+      syncServices(data);
+      setupFlashPopup(data);
+      setupInquiryCatcher();
+    });
   }
 
   if (document.readyState === "loading") {

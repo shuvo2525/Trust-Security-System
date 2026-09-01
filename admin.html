@@ -381,6 +381,37 @@
       gap: 10px;
     }
 
+    .sync-status-badge {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn-link-folder {
+      background: #f1f5f9;
+      color: #0f172a;
+      border: 1.5px solid #cbd5e1;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-link-folder:hover {
+      background: #e2e8f0;
+      border-color: #0ea5e9;
+      color: #0ea5e9;
+    }
+
     .btn-publish-all {
       background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
       color: #ffffff !important;
@@ -747,17 +778,22 @@
       
       <!-- Topbar -->
       <header class="admin-topbar">
-        <h1 class="topbar-page-title" id="currentTabTitle">Dashboard Overview</h1>
+        <div class="d-flex align-items-center gap-3">
+          <h1 class="topbar-page-title mb-0" id="currentTabTitle">Dashboard Overview</h1>
+          <span id="syncModeBadge" class="sync-status-badge bg-light text-secondary border">
+            <i class="fa-solid fa-circle text-muted"></i> Checking Sync Mode...
+          </span>
+        </div>
         <div class="topbar-actions">
-          <button type="button" class="btn-publish-all" onclick="publishAndExportData()" title="Export updated default-content.js so all browsers see your changes permanently">
+          <button type="button" id="btnLinkFolder" class="btn-link-folder" onclick="requestDirectoryAccess()" title="Link your project folder for direct 1-click disk auto-saving in Edge/Chrome">
+            <i class="fa-solid fa-folder-open text-warning"></i> Link Project Folder
+          </button>
+          <button type="button" class="btn-publish-all" onclick="publishAndExportData()" title="Download updated default-content.js for universal cross-browser publishing">
             <i class="fa-solid fa-file-export"></i> Publish to All Browsers
           </button>
           <a href="index.html" target="_blank" class="view-live-site-btn" title="Open Live Website in New Tab">
-            <i class="fa-solid fa-globe"></i> View Live Website
+            <i class="fa-solid fa-globe"></i> View Live Site
           </a>
-          <button type="button" class="btn btn-outline-danger btn-sm" onclick="resetFactoryDefaults()">
-            <i class="fa-solid fa-rotate-left"></i> Reset Defaults
-          </button>
         </div>
       </header>
 
@@ -773,13 +809,18 @@
             <div class="d-flex align-items-center gap-3">
               <i class="fa-solid fa-cloud-arrow-up fs-3 text-primary"></i>
               <div>
-                <strong class="d-block">Cross-Browser Permanent Publishing</strong>
-                <small class="text-muted">Click <strong>"Publish to All Browsers"</strong> to export your updated <code>default-content.js</code> file so Edge, Firefox, Chrome & all devices show your changes permanently!</small>
+                <strong class="d-block">Universal Cross-Browser & Live Hosting Synchronization</strong>
+                <small class="text-muted">When running on live cPanel/PHP or local server (<code>START_LOCAL_SERVER.bat</code>), clicking Save writes <strong>directly to disk</strong> so Edge, Chrome, Firefox & Mobile instantly update! For offline file mode, click <strong>"Link Project Folder"</strong> or <strong>"Publish to All Browsers"</strong>.</small>
               </div>
             </div>
-            <button type="button" class="btn btn-primary fw-bold px-3" onclick="publishAndExportData()">
-              <i class="fa-solid fa-download me-1"></i> Export Data File
-            </button>
+            <div class="d-flex gap-2">
+              <button type="button" class="btn btn-warning fw-bold px-3 text-dark" onclick="requestDirectoryAccess()">
+                <i class="fa-solid fa-folder-open me-1"></i> Link Folder
+              </button>
+              <button type="button" class="btn btn-primary fw-bold px-3" onclick="publishAndExportData()">
+                <i class="fa-solid fa-download me-1"></i> Export Data
+              </button>
+            </div>
           </div>
 
           <div class="row g-4 mb-4">
@@ -1857,7 +1898,7 @@
 <script src="data/default-content.js"></script>
 <script>
   /* ==========================================================================
-     ADMIN CMS FULL CONTROLLER
+     ADMIN CMS FULL CONTROLLER & MULTI-TIER STORAGE ENGINE
      ========================================================================== */
   const DATA_KEY = "trust_security_site_data";
   const INBOX_KEY = "trust_security_inbox";
@@ -1865,6 +1906,8 @@
 
   let siteData = {};
   let tempUploads = {};
+  let projectDirHandle = null;
+  let isServerConnected = false;
   
   const productModal = new bootstrap.Modal(document.getElementById('productModal'));
   const serviceModal = new bootstrap.Modal(document.getElementById('serviceModal'));
@@ -1887,8 +1930,35 @@
   }
 
   function init() {
+    detectEnvironment();
     loadData();
     checkAuth();
+  }
+
+  function detectEnvironment() {
+    const badge = document.getElementById("syncModeBadge");
+    if (window.location.protocol.startsWith("http")) {
+      // Test server API
+      const apiUrl = window.location.pathname.includes("/api/") ? "api/get.php" : "/api/get";
+      fetch(apiUrl, { cache: "no-store" })
+        .then(res => {
+          if (res.ok) {
+            isServerConnected = true;
+            badge.className = "sync-status-badge bg-success text-white shadow-sm";
+            badge.innerHTML = '<i class="fa-solid fa-cloud-check"></i> Live Server Connected (Auto-Sync ON)';
+            document.getElementById("btnLinkFolder").style.display = "none";
+          } else {
+            throw new Error();
+          }
+        })
+        .catch(() => {
+          badge.className = "sync-status-badge bg-info text-dark";
+          badge.innerHTML = '<i class="fa-solid fa-laptop"></i> Local Web Server Mode';
+        });
+    } else {
+      badge.className = "sync-status-badge bg-warning text-dark";
+      badge.innerHTML = '<i class="fa-solid fa-folder-tree"></i> Offline Disk Mode (Click Link Folder)';
+    }
   }
 
   function loadData() {
@@ -1904,14 +1974,101 @@
     } catch (e) {
       siteData = base;
     }
+
+    // Try fetching from server JSON if online
+    if (window.location.protocol.startsWith("http")) {
+      const jsonUrl = "data/site-data.json?t=" + Date.now();
+      fetch(jsonUrl, { cache: "no-store" })
+        .then(res => res.json())
+        .then(data => {
+          siteData = deepMerge(siteData, data);
+          populateAllForms();
+        })
+        .catch(() => {});
+    }
   }
 
-  function saveData(msg) {
+  async function saveData(msg) {
     try {
+      // 1. Save to localStorage
       localStorage.setItem(DATA_KEY, JSON.stringify(siteData));
+
+      // 2. If Server API is available (live cPanel / PowerShell local server), save to disk directly
+      if (window.location.protocol.startsWith("http")) {
+        const saveUrl = window.location.pathname.includes("/api/") ? "api/save.php" : "/api/save";
+        try {
+          const res = await fetch(saveUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(siteData)
+          });
+          if (res.ok) {
+            showToast("Saved & Published to Server & All Browsers!");
+            return;
+          }
+        } catch (err) {}
+      }
+
+      // 3. If User linked project folder, write directly to disk files
+      if (projectDirHandle) {
+        try {
+          await writeDirectToDisk(projectDirHandle, siteData);
+          showToast("Saved directly to disk files (default-content.js & site-data.json)!");
+          return;
+        } catch (err) {
+          console.warn("Direct folder write error", err);
+        }
+      }
+
       showToast(msg || "Changes saved! Click 'Publish to All Browsers' to export.");
     } catch (e) {
       alert("Error saving: " + e.message);
+    }
+  }
+
+  /* --- NATIVE FILE SYSTEM ACCESS API --- */
+  async function requestDirectoryAccess() {
+    if (!window.showDirectoryPicker) {
+      alert("Folder linking is supported in Chrome, Edge, and Opera.\nFor Firefox or other browsers, use 'Publish to All Browsers' to export data file.");
+      return;
+    }
+    try {
+      projectDirHandle = await window.showDirectoryPicker({ mode: "readwrite" });
+      const badge = document.getElementById("syncModeBadge");
+      badge.className = "sync-status-badge bg-success text-white shadow-sm";
+      badge.innerHTML = '<i class="fa-solid fa-folder-check"></i> Project Folder Linked (Disk Direct Auto-Save ON)';
+      document.getElementById("btnLinkFolder").innerHTML = '<i class="fa-solid fa-circle-check text-success"></i> Folder Linked';
+      
+      // Save current state immediately
+      await writeDirectToDisk(projectDirHandle, siteData);
+      showToast("Project folder linked! All changes now save directly to disk!");
+    } catch (err) {
+      if (err.name !== "AbortError") {
+        alert("Could not access folder: " + err.message);
+      }
+    }
+  }
+
+  async function writeDirectToDisk(dirHandle, data) {
+    try {
+      // Get or create data directory
+      const dataDirHandle = await dirHandle.getDirectoryHandle("data", { create: true });
+      
+      // 1. Write site-data.json
+      const jsonFileHandle = await dataDirHandle.getFileHandle("site-data.json", { create: true });
+      const jsonWritable = await jsonFileHandle.createWritable();
+      await jsonWritable.write(JSON.stringify(data, null, 2));
+      await jsonWritable.close();
+
+      // 2. Write default-content.js
+      const jsFileHandle = await dataDirHandle.getFileHandle("default-content.js", { create: true });
+      const jsWritable = await jsFileHandle.createWritable();
+      const jsContent = "/**\n * Trust Security System - Default CMS Baseline Database\n * Auto-generated by Admin CMS Native Disk Engine\n */\nwindow.DEFAULT_SITE_DATA = " + JSON.stringify(data, null, 2) + ";\n";
+      await jsWritable.write(jsContent);
+      await jsWritable.close();
+    } catch (err) {
+      console.error("Failed writing to folder", err);
+      throw err;
     }
   }
 
@@ -1988,15 +2145,6 @@
   function performLogout() {
     sessionStorage.removeItem(AUTH_KEY);
     window.location.reload();
-  }
-
-  function resetFactoryDefaults() {
-    if (confirm("Reset all website texts, colors, flash popup, images, and password to factory defaults?")) {
-      localStorage.removeItem(DATA_KEY);
-      loadData();
-      populateAllForms();
-      showToast("Reset to factory defaults!");
-    }
   }
 
   /* --- TAB SWITCHING --- */
@@ -2229,7 +2377,6 @@
   setupFileToPreview("homeAboutImgFile", "homeAboutImgThumb", "homeAboutImgUrl");
   setupFileToPreview("homeClientAvatarFile", "homeClientAvatarThumb", "homeClientAvatarUrl");
 
-  // Local Video Upload Handler
   document.getElementById("localVideoFileInput").addEventListener("change", function () {
     if (this.files && this.files[0]) {
       const file = this.files[0];
@@ -2919,7 +3066,6 @@
     a.click();
   }
 
-  // Start on load
   init();
 </script>
 </body>
