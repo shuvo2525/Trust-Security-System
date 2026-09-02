@@ -66,8 +66,8 @@
   function fetchFromServerOrLocal(baseData, localData, callback) {
     if (window.location.protocol.startsWith("http")) {
       // 1. Try PHP API (cPanel, InfinityFree, Shared Hosting)
-      var phpUrl = window.location.pathname.includes("/api/") ? "get.php" : "api/get.php";
-      fetch(phpUrl + "?t=" + Date.now(), { cache: "no-store" })
+      var phpUrl = "php/get.php?t=" + Date.now();
+      fetch(phpUrl, { cache: "no-store" })
         .then(function (res) {
           if (res.ok) return res.json();
           throw new Error("PHP API not found");
@@ -78,21 +78,33 @@
           callback(merged);
         })
         .catch(function () {
-          // 2. Try JSON file / Node / Vercel API
-          var jsonUrl = window.location.pathname.includes("/api/") ? "../data/site-data.json" : "data/site-data.json?t=" + Date.now();
-          fetch(jsonUrl, { cache: "no-store" })
+          // 2. Try Vercel / Node Serverless API
+          fetch("/api/get", { cache: "no-store" })
             .then(function (res) {
               if (res.ok) return res.json();
-              throw new Error("JSON not found");
+              throw new Error("Vercel API not found");
             })
-            .then(function (jsonData) {
-              var merged = deepMerge(baseData, jsonData);
+            .then(function (vercelData) {
+              var merged = deepMerge(baseData, vercelData);
               if (localData) merged = deepMerge(merged, localData);
               callback(merged);
             })
             .catch(function () {
-              var fallback = localData ? deepMerge(baseData, localData) : baseData;
-              callback(fallback);
+              // 3. Try JSON file
+              fetch("data/site-data.json?t=" + Date.now(), { cache: "no-store" })
+                .then(function (res) {
+                  if (res.ok) return res.json();
+                  throw new Error("JSON not found");
+                })
+                .then(function (jsonData) {
+                  var merged = deepMerge(baseData, jsonData);
+                  if (localData) merged = deepMerge(merged, localData);
+                  callback(merged);
+                })
+                .catch(function () {
+                  var fallback = localData ? deepMerge(baseData, localData) : baseData;
+                  callback(fallback);
+                });
             });
         });
     } else {
@@ -602,7 +614,7 @@
 
         // 1. Submit to PHP / Server API if online
         if (window.location.protocol.startsWith("http")) {
-          var inqUrl = window.location.pathname.includes("/api/") ? "inbox.php" : "api/inbox.php";
+          var inqUrl = "php/inbox.php";
           fetch(inqUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },

@@ -1691,8 +1691,8 @@
           <div class="cms-card">
             <div class="cms-card-header">
               <h2 class="cms-card-title"><i class="fa-solid fa-server text-primary"></i> 1. cPanel / InfinityFree / Shared Hosting (PHP & MySQL Database)</h2>
-              <a href="api/install.php" target="_blank" class="btn btn-sm btn-primary fw-bold">
-                <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Launch Web Installer (api/install.php)
+              <a href="php/install.php" target="_blank" class="btn btn-sm btn-primary fw-bold">
+                <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Launch Web Installer (php/install.php)
               </a>
             </div>
             <p class="text-muted small mb-3">
@@ -1721,7 +1721,7 @@
               <div class="col-md-3">
                 <div class="p-3 border rounded-3 bg-light text-center">
                   <small class="text-muted d-block fw-bold mb-1">phpMyAdmin SQL Dump</small>
-                  <a href="api/database.sql" download class="btn btn-sm btn-outline-dark w-100 py-1">
+                  <a href="php/database.sql" download class="btn btn-sm btn-outline-dark w-100 py-1">
                     <i class="fa-solid fa-download me-1"></i> database.sql
                   </a>
                 </div>
@@ -2073,8 +2073,8 @@
   function detectEnvironment() {
     const badge = document.getElementById("syncModeBadge");
     if (window.location.protocol.startsWith("http")) {
-      const apiUrl = window.location.pathname.includes("/api/") ? "api/get.php" : "api/get.php";
-      fetch(apiUrl + "?t=" + Date.now(), { cache: "no-store" })
+      const phpUrl = "php/get.php";
+      fetch(phpUrl + "?t=" + Date.now(), { cache: "no-store" })
         .then(res => {
           if (res.ok) {
             isServerConnected = true;
@@ -2125,7 +2125,7 @@
 
     // Try fetching from server API / JSON if online
     if (window.location.protocol.startsWith("http")) {
-      const phpUrl = "api/get.php?t=" + Date.now();
+      const phpUrl = "php/get.php?t=" + Date.now();
       fetch(phpUrl, { cache: "no-store" })
         .then(res => { if (res.ok) return res.json(); throw new Error(); })
         .then(data => {
@@ -2133,13 +2133,21 @@
           populateAllForms();
         })
         .catch(() => {
-          fetch("data/site-data.json?t=" + Date.now(), { cache: "no-store" })
-            .then(res => res.json())
-            .then(jsonData => {
-              siteData = deepMerge(siteData, jsonData);
+          fetch("/api/get", { cache: "no-store" })
+            .then(res => { if (res.ok) return res.json(); throw new Error(); })
+            .then(vercelData => {
+              siteData = deepMerge(siteData, vercelData);
               populateAllForms();
             })
-            .catch(() => {});
+            .catch(() => {
+              fetch("data/site-data.json?t=" + Date.now(), { cache: "no-store" })
+                .then(res => res.json())
+                .then(jsonData => {
+                  siteData = deepMerge(siteData, jsonData);
+                  populateAllForms();
+                })
+                .catch(() => {});
+            });
         });
     }
   }
@@ -2156,7 +2164,7 @@
       // 2. Save via PHP API (cPanel, InfinityFree, Apache, Nginx)
       if (window.location.protocol.startsWith("http")) {
         try {
-          const phpRes = await fetch("api/save.php", {
+          const phpRes = await fetch("php/save.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(siteData)
@@ -2235,7 +2243,7 @@
     const mysqlBadge = document.getElementById("mysqlStatusBadge");
 
     try {
-      const res = await fetch("api/get.php?t=" + Date.now(), { cache: "no-store" });
+      const res = await fetch("php/get.php?t=" + Date.now(), { cache: "no-store" });
       if (res.ok) {
         if (phpBadge) {
           phpBadge.className = "badge bg-success";
@@ -2279,7 +2287,7 @@
       formData.append("db_pass", pass);
       formData.append("storage_mode", "mysql");
 
-      const res = await fetch("api/install.php", {
+      const res = await fetch("php/install.php", {
         method: "POST",
         body: formData
       });
@@ -2288,10 +2296,10 @@
         showToast("MySQL Database connected & tables initialized successfully!");
         checkBackendHealth();
       } else {
-        alert("Failed connecting to MySQL. Please verify credentials in api/install.php.");
+        alert("Failed connecting to MySQL. Please verify credentials in php/install.php.");
       }
     } catch (err) {
-      alert("Error: " + err.message + "\nYou can also open api/install.php directly in your browser.");
+      alert("Error: " + err.message + "\nYou can also open php/install.php directly in your browser.");
     }
   }
 

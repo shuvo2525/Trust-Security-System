@@ -34,7 +34,6 @@ function getDBConnection() {
 
         return $pdo;
     } catch (Exception $e) {
-        // Fallback gracefully to JSON file storage
         error_log("MySQL Connection failed: " . $e->getMessage());
         return null;
     }

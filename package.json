@@ -1,0 +1,9 @@
+{
+  "name": "trust-security-system",
+  "version": "1.0.0",
+  "description": "Trust Security System - Official Website & CMS Catalog",
+  "main": "index.html",
+  "scripts": {
+    "start": "node -e \"console.log('Site ready')\""
+  }
+}
