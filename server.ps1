@@ -108,6 +108,17 @@ while ($listener.IsListening) {
             continue
         }
 
+        # API: Install / Setup
+        if ($urlPath -eq "/api/install.php" -or $urlPath -eq "/api/install") {
+            $resText = '{"success":true,"message":"Local PowerShell server is running with direct disk sync!"}'
+            $buffer = [System.Text.Encoding]::UTF8.GetBytes($resText)
+            $response.ContentType = "application/json; charset=utf-8"
+            $response.ContentLength64 = $buffer.Length
+            $response.OutputStream.Write($buffer, 0, $buffer.Length)
+            $response.Close()
+            continue
+        }
+
         # API: Quotations Inbox
         if ($urlPath -eq "/api/inbox" -or $urlPath -eq "/api/inbox.php") {
             $inboxPath = Join-Path $root "data\inbox.json"

@@ -1,6 +1,6 @@
 /**
- * Trust Security System - Dynamic CMS Frontend Synchronizer
- * Multi-tiered Live Synchronizer: Server API -> site-data.json -> default-content.js -> localStorage
+ * Trust Security System - Universal Multi-Platform CMS Synchronizer
+ * Compatible with cPanel, InfinityFree, Vercel, Netlify, Cloudflare, GitHub Pages, Local Server & Offline Disk
  */
 (function () {
   "use strict";
@@ -28,13 +28,49 @@
       if (raw) localData = JSON.parse(raw);
     } catch (e) {}
 
-    // 1. Try to fetch live shared data from server / JSON file (Works across all browsers on live server & local server)
+    // Check if Cloud DB (Supabase / REST) is configured
+    var cloudConfig = null;
+    try {
+      var cloudRaw = localStorage.getItem("trust_cloud_db_config");
+      if (cloudRaw) cloudConfig = JSON.parse(cloudRaw);
+    } catch (e) {}
+
+    if (cloudConfig && cloudConfig.url && cloudConfig.key) {
+      fetch(cloudConfig.url + "/rest/v1/trust_site_data?key_name=eq.site_main_data&select=data_content", {
+        headers: {
+          "apikey": cloudConfig.key,
+          "Authorization": "Bearer " + cloudConfig.key
+        },
+        cache: "no-store"
+      })
+      .then(function (res) { if (res.ok) return res.json(); throw new Error(); })
+      .then(function (rows) {
+        if (rows && rows.length > 0 && rows[0].data_content) {
+          var cloudData = JSON.parse(rows[0].data_content);
+          var merged = deepMerge(baseData, cloudData);
+          if (localData) merged = deepMerge(merged, localData);
+          callback(merged);
+          return;
+        }
+        throw new Error();
+      })
+      .catch(function () {
+        fetchFromServerOrLocal(baseData, localData, callback);
+      });
+      return;
+    }
+
+    fetchFromServerOrLocal(baseData, localData, callback);
+  }
+
+  function fetchFromServerOrLocal(baseData, localData, callback) {
     if (window.location.protocol.startsWith("http")) {
-      var apiUrl = window.location.pathname.includes("/api/") ? "api/get.php" : "data/site-data.json?t=" + Date.now();
-      fetch(apiUrl, { cache: "no-store" })
+      // 1. Try PHP API (cPanel, InfinityFree, Shared Hosting)
+      var phpUrl = window.location.pathname.includes("/api/") ? "get.php" : "api/get.php";
+      fetch(phpUrl + "?t=" + Date.now(), { cache: "no-store" })
         .then(function (res) {
           if (res.ok) return res.json();
-          throw new Error("API not available");
+          throw new Error("PHP API not found");
         })
         .then(function (serverData) {
           var merged = deepMerge(baseData, serverData);
@@ -42,8 +78,22 @@
           callback(merged);
         })
         .catch(function () {
-          var fallback = localData ? deepMerge(baseData, localData) : baseData;
-          callback(fallback);
+          // 2. Try JSON file / Node / Vercel API
+          var jsonUrl = window.location.pathname.includes("/api/") ? "../data/site-data.json" : "data/site-data.json?t=" + Date.now();
+          fetch(jsonUrl, { cache: "no-store" })
+            .then(function (res) {
+              if (res.ok) return res.json();
+              throw new Error("JSON not found");
+            })
+            .then(function (jsonData) {
+              var merged = deepMerge(baseData, jsonData);
+              if (localData) merged = deepMerge(merged, localData);
+              callback(merged);
+            })
+            .catch(function () {
+              var fallback = localData ? deepMerge(baseData, localData) : baseData;
+              callback(fallback);
+            });
         });
     } else {
       // file:/// mode
@@ -190,13 +240,13 @@
     el.innerHTML = text;
   }
 
-  // 2. Flash SMS / Picture Popup (Strictly respect ON / OFF toggle)
+  // 2. Flash SMS / Picture Popup
   function setupFlashPopup(data) {
     var existingModal = document.getElementById("cmsFlashPopupModal");
     if (existingModal) existingModal.remove();
 
     if (!data || !data.flashPopup || data.flashPopup.enabled === false || data.flashPopup.enabled === "false" || data.flashPopup.enabled === 0) {
-      return; // 100% OFF
+      return;
     }
 
     if (window.location.pathname.includes("admin.html")) return;
@@ -238,9 +288,7 @@
           var bsModal = new bootstrap.Modal(modalEl);
           bsModal.show();
         }
-      } catch (e) {
-        console.warn("Flash modal display error", e);
-      }
+      } catch (e) {}
     }, 1200);
   }
 
@@ -308,7 +356,7 @@
     if (!data || !data.home) return;
     var h = data.home;
 
-    // 1. Hero
+    // Hero
     if (h.hero) {
       var heroTag = document.querySelector(".hero-main-area h5");
       if (heroTag && h.hero.tagline) heroTag.innerHTML = '<img src="assets/img/icons/finger1.svg" alt=""> ' + h.hero.tagline;
@@ -335,7 +383,7 @@
       if (heroImg && h.hero.heroImg) heroImg.src = h.hero.heroImg;
     }
 
-    // 2. About - "Safeguarding Your Peace of Mind"
+    // About - "Safeguarding Your Peace of Mind"
     if (h.about) {
       var aboutBadge = document.querySelector(".about1-section-area h5");
       if (aboutBadge && h.about.badge) aboutBadge.innerHTML = '<img src="assets/img/icons/finger2.svg" alt=""> ' + h.about.badge;
@@ -365,7 +413,7 @@
       }
     }
 
-    // 3. Complete Protection Services Header
+    // Service Header
     if (h.serviceHeader) {
       var servH2 = document.querySelector(".service1-section-area .service-header h2");
       if (servH2 && h.serviceHeader.title) setTextSafe(servH2, h.serviceHeader.title);
@@ -373,7 +421,7 @@
       if (servP && h.serviceHeader.description) servP.textContent = h.serviceHeader.description;
     }
 
-    // 4. Working Video & Video Upload
+    // Video Section
     if (h.video) {
       var videoSec = document.querySelector(".video-section-area");
       if (videoSec) {
@@ -394,7 +442,7 @@
       }
     }
 
-    // 5. Team Members
+    // Team Members
     if (h.teamHeader) {
       var teamH2 = document.querySelector(".team1-section-area h2");
       if (teamH2 && h.teamHeader.title) setTextSafe(teamH2, h.teamHeader.title);
@@ -415,7 +463,7 @@
       });
     }
 
-    // 6. Milestone Counters
+    // Milestone Counters
     if (h.counters) {
       var counterBoxes = document.querySelectorAll(".counter-section-area .counter-boxarea");
       if (counterBoxes[0] && h.counters.stat1Number) {
@@ -444,7 +492,7 @@
       }
     }
 
-    // 7. Blog Posts
+    // Blog Posts
     if (h.blogHeader) {
       var blogH2 = document.querySelector(".blog1-section-area h2");
       if (blogH2 && h.blogHeader.title) setTextSafe(blogH2, h.blogHeader.title);
@@ -471,7 +519,7 @@
       });
     }
 
-    // 8. CTA
+    // CTA
     if (h.cta) {
       var ctaH2 = document.querySelector(".cta-author-area h2");
       if (ctaH2 && h.cta.title) setTextSafe(ctaH2, h.cta.title);
@@ -552,16 +600,24 @@
           status: "New"
         };
 
-        // Try to submit via API
+        // 1. Submit to PHP / Server API if online
         if (window.location.protocol.startsWith("http")) {
-          var inqUrl = window.location.pathname.includes("/api/") ? "api/inbox.php" : "/api/inbox";
+          var inqUrl = window.location.pathname.includes("/api/") ? "inbox.php" : "api/inbox.php";
           fetch(inqUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(inquiry)
-          }).catch(function () {});
+          }).catch(function () {
+            // Try vercel API
+            fetch("/api/inbox", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(inquiry)
+            }).catch(function () {});
+          });
         }
 
+        // 2. Save locally as fallback
         try {
           var inboxes = JSON.parse(localStorage.getItem("trust_security_inbox") || "[]");
           inboxes.unshift(inquiry);

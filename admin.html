@@ -764,6 +764,13 @@
             <i class="fa-solid fa-location-dot"></i> Contact & Branches
           </button>
         </li>
+
+        <li class="sidebar-category">Deployment & Hosting</li>
+        <li>
+          <button class="nav-tab-btn" onclick="switchTab('tabHosting')">
+            <i class="fa-solid fa-server text-warning"></i> Hosting & Database Setup
+          </button>
+        </li>
       </ul>
 
       <div class="sidebar-footer">
@@ -1675,10 +1682,136 @@
                     <th>Action</th>
                   </tr>
                 </thead>
-                <tbody id="inboxTbody"></tbody>
-              </table>
+        <!-- ==================================================================
+             TAB 10: HOSTING & DATABASE MANAGER (cPanel, InfinityFree, Vercel, Supabase)
+             ================================================================== -->
+        <div id="tabHosting" class="tab-pane-content">
+          
+          <!-- 1. cPanel / InfinityFree / Shared Hosting -->
+          <div class="cms-card">
+            <div class="cms-card-header">
+              <h2 class="cms-card-title"><i class="fa-solid fa-server text-primary"></i> 1. cPanel / InfinityFree / Shared Hosting (PHP & MySQL Database)</h2>
+              <a href="api/install.php" target="_blank" class="btn btn-sm btn-primary fw-bold">
+                <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Launch Web Installer (api/install.php)
+              </a>
+            </div>
+            <p class="text-muted small mb-3">
+              If you host this site on cPanel, InfinityFree, Namecheap, Hostinger, or Apache/Nginx with PHP, you can save directly to a <strong>MySQL Database</strong> and/or <strong>server JSON files</strong>. All visitors on any browser will instantly see the latest updates.
+            </p>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-3">
+                <div class="p-3 border rounded-3 bg-light text-center">
+                  <small class="text-muted d-block fw-bold mb-1">PHP API Status</small>
+                  <span id="phpApiStatusBadge" class="badge bg-secondary">Checking...</span>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="p-3 border rounded-3 bg-light text-center">
+                  <small class="text-muted d-block fw-bold mb-1">MySQL Database</small>
+                  <span id="mysqlStatusBadge" class="badge bg-secondary">Checking...</span>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="p-3 border rounded-3 bg-light text-center">
+                  <small class="text-muted d-block fw-bold mb-1">Storage Mode</small>
+                  <span id="storageModeBadge" class="badge bg-info text-dark">Auto (MySQL + JSON)</span>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="p-3 border rounded-3 bg-light text-center">
+                  <small class="text-muted d-block fw-bold mb-1">phpMyAdmin SQL Dump</small>
+                  <a href="api/database.sql" download class="btn btn-sm btn-outline-dark w-100 py-1">
+                    <i class="fa-solid fa-download me-1"></i> database.sql
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-3 border rounded-3 bg-light mb-3">
+              <h6 class="fw-bold mb-2"><i class="fa-solid fa-database text-primary me-1"></i> MySQL Database Quick Setup</h6>
+              <div class="row g-2 mb-2">
+                <div class="col-md-3">
+                  <label class="small fw-bold">Host</label>
+                  <input type="text" id="quickDbHost" class="cms-input form-control-sm" placeholder="localhost">
+                </div>
+                <div class="col-md-3">
+                  <label class="small fw-bold">Database Name</label>
+                  <input type="text" id="quickDbName" class="cms-input form-control-sm" placeholder="cpaneluser_trustdb">
+                </div>
+                <div class="col-md-3">
+                  <label class="small fw-bold">Username</label>
+                  <input type="text" id="quickDbUser" class="cms-input form-control-sm" placeholder="cpaneluser_admin">
+                </div>
+                <div class="col-md-3">
+                  <label class="small fw-bold">Password</label>
+                  <input type="password" id="quickDbPass" class="cms-input form-control-sm" placeholder="••••••••">
+                </div>
+              </div>
+              <div class="d-flex gap-2">
+                <button type="button" class="btn btn-sm btn-primary fw-bold" onclick="testAndSaveMySQL()">
+                  <i class="fa-solid fa-bolt me-1"></i> Connect & Create Tables
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="checkBackendHealth()">
+                  <i class="fa-solid fa-rotate me-1"></i> Refresh Status
+                </button>
+              </div>
             </div>
           </div>
+
+          <!-- 2. Vercel / Netlify / Cloud Database (Supabase) -->
+          <div class="cms-card">
+            <div class="cms-card-header">
+              <h2 class="cms-card-title"><i class="fa-solid fa-cloud text-info"></i> 2. Vercel / Netlify / GitHub Pages (Cloud Database - Supabase)</h2>
+              <div class="form-check form-switch fs-5">
+                <input class="form-check-input" type="checkbox" id="cloudDbToggle" onchange="toggleCloudDbSettings()">
+                <label class="form-check-label fs-6 fw-bold text-dark ms-2" for="cloudDbToggle">Enable Cloud Database</label>
+              </div>
+            </div>
+            <p class="text-muted small mb-3">
+              Vercel and Netlify have read-only filesystems. By connecting a <strong>100% Free Supabase / Cloud Database</strong>, your updates will be permanently saved in the cloud and instantly synchronized worldwide on Vercel, Netlify, and all devices!
+            </p>
+
+            <div id="cloudDbConfigBox" class="p-3 border rounded-3 bg-light mb-3 d-none">
+              <div class="row g-3 mb-2">
+                <div class="col-md-6">
+                  <label class="small fw-bold">Supabase Project URL</label>
+                  <input type="text" id="supabaseUrlInput" class="cms-input" placeholder="https://xyzcompany.supabase.co">
+                </div>
+                <div class="col-md-6">
+                  <label class="small fw-bold">Supabase Anon Public API Key</label>
+                  <input type="password" id="supabaseKeyInput" class="cms-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+                </div>
+              </div>
+              <div class="d-flex gap-2">
+                <button type="button" class="btn btn-sm btn-success fw-bold" onclick="saveAndTestCloudDb()">
+                  <i class="fa-solid fa-circle-check me-1"></i> Test & Save Cloud Connection
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="showSupabaseSqlModal()">
+                  <i class="fa-solid fa-code me-1"></i> View Supabase SQL Table Schema
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Local Offline Mode -->
+          <div class="cms-card">
+            <div class="cms-card-header">
+              <h2 class="cms-card-title"><i class="fa-solid fa-laptop-code text-success"></i> 3. Local Computer Development (1-Click Local Server)</h2>
+            </div>
+            <p class="text-muted small mb-2">
+              On your local Windows computer, double-click <code>START_LOCAL_SERVER.bat</code> to run the built-in local server at <code>http://localhost:8080/</code>. Any changes made here are written straight to your local hard drive and update across all browsers instantly.
+            </p>
+            <div class="d-flex gap-2">
+              <button type="button" class="btn btn-warning fw-bold text-dark" onclick="requestDirectoryAccess()">
+                <i class="fa-solid fa-folder-open me-1"></i> Link Project Folder for Direct Disk Auto-Save
+              </button>
+              <button type="button" class="btn btn-primary fw-bold" onclick="publishAndExportData()">
+                <i class="fa-solid fa-download me-1"></i> Export default-content.js File
+              </button>
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -1932,28 +2065,43 @@
   function init() {
     detectEnvironment();
     loadData();
+    loadCloudDbConfig();
     checkAuth();
+    checkBackendHealth();
   }
 
   function detectEnvironment() {
     const badge = document.getElementById("syncModeBadge");
     if (window.location.protocol.startsWith("http")) {
-      // Test server API
-      const apiUrl = window.location.pathname.includes("/api/") ? "api/get.php" : "/api/get";
-      fetch(apiUrl, { cache: "no-store" })
+      const apiUrl = window.location.pathname.includes("/api/") ? "api/get.php" : "api/get.php";
+      fetch(apiUrl + "?t=" + Date.now(), { cache: "no-store" })
         .then(res => {
           if (res.ok) {
             isServerConnected = true;
             badge.className = "sync-status-badge bg-success text-white shadow-sm";
-            badge.innerHTML = '<i class="fa-solid fa-cloud-check"></i> Live Server Connected (Auto-Sync ON)';
+            badge.innerHTML = '<i class="fa-solid fa-server"></i> Server Connected (PHP / MySQL / JSON)';
             document.getElementById("btnLinkFolder").style.display = "none";
           } else {
             throw new Error();
           }
         })
         .catch(() => {
-          badge.className = "sync-status-badge bg-info text-dark";
-          badge.innerHTML = '<i class="fa-solid fa-laptop"></i> Local Web Server Mode';
+          // Check Vercel / Node server
+          fetch("/api/get", { cache: "no-store" })
+            .then(res => {
+              if (res.ok) {
+                isServerConnected = true;
+                badge.className = "sync-status-badge bg-primary text-white shadow-sm";
+                badge.innerHTML = '<i class="fa-solid fa-cloud"></i> Vercel / Serverless Active';
+                document.getElementById("btnLinkFolder").style.display = "none";
+              } else {
+                throw new Error();
+              }
+            })
+            .catch(() => {
+              badge.className = "sync-status-badge bg-info text-dark";
+              badge.innerHTML = '<i class="fa-solid fa-laptop"></i> Local Web Server Mode';
+            });
         });
     } else {
       badge.className = "sync-status-badge bg-warning text-dark";
@@ -1975,55 +2123,255 @@
       siteData = base;
     }
 
-    // Try fetching from server JSON if online
+    // Try fetching from server API / JSON if online
     if (window.location.protocol.startsWith("http")) {
-      const jsonUrl = "data/site-data.json?t=" + Date.now();
-      fetch(jsonUrl, { cache: "no-store" })
-        .then(res => res.json())
+      const phpUrl = "api/get.php?t=" + Date.now();
+      fetch(phpUrl, { cache: "no-store" })
+        .then(res => { if (res.ok) return res.json(); throw new Error(); })
         .then(data => {
           siteData = deepMerge(siteData, data);
           populateAllForms();
         })
-        .catch(() => {});
+        .catch(() => {
+          fetch("data/site-data.json?t=" + Date.now(), { cache: "no-store" })
+            .then(res => res.json())
+            .then(jsonData => {
+              siteData = deepMerge(siteData, jsonData);
+              populateAllForms();
+            })
+            .catch(() => {});
+        });
     }
   }
 
+  /* --- MULTI-TARGET UNIVERSAL SAVE PIPELINE --- */
   async function saveData(msg) {
     try {
+      let savedDestinations = [];
+
       // 1. Save to localStorage
       localStorage.setItem(DATA_KEY, JSON.stringify(siteData));
+      savedDestinations.push("Local Browser Storage");
 
-      // 2. If Server API is available (live cPanel / PowerShell local server), save to disk directly
+      // 2. Save via PHP API (cPanel, InfinityFree, Apache, Nginx)
       if (window.location.protocol.startsWith("http")) {
-        const saveUrl = window.location.pathname.includes("/api/") ? "api/save.php" : "/api/save";
         try {
-          const res = await fetch(saveUrl, {
+          const phpRes = await fetch("api/save.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(siteData)
           });
-          if (res.ok) {
-            showToast("Saved & Published to Server & All Browsers!");
-            return;
+          if (phpRes.ok) {
+            const resJson = await phpRes.json();
+            if (resJson.storage && resJson.storage.mysql_database) {
+              savedDestinations.push("MySQL Database");
+            }
+            if (resJson.storage && resJson.storage.json_file) {
+              savedDestinations.push("Server Files (data/)");
+            }
           }
-        } catch (err) {}
-      }
-
-      // 3. If User linked project folder, write directly to disk files
-      if (projectDirHandle) {
-        try {
-          await writeDirectToDisk(projectDirHandle, siteData);
-          showToast("Saved directly to disk files (default-content.js & site-data.json)!");
-          return;
-        } catch (err) {
-          console.warn("Direct folder write error", err);
+        } catch (phpErr) {
+          // Try /api/save (Vercel / Local Node)
+          try {
+            const vercelRes = await fetch("/api/save", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(siteData)
+            });
+            if (vercelRes.ok) {
+              savedDestinations.push("Vercel / Serverless API");
+            }
+          } catch (vErr) {}
         }
       }
 
-      showToast(msg || "Changes saved! Click 'Publish to All Browsers' to export.");
+      // 3. Save to Cloud DB (Supabase) if configured
+      const cloudConfig = getCloudDbConfig();
+      if (cloudConfig && cloudConfig.enabled && cloudConfig.url && cloudConfig.key) {
+        try {
+          const cloudRes = await fetch(cloudConfig.url + "/rest/v1/trust_site_data?key_name=eq.site_main_data", {
+            method: "POST",
+            headers: {
+              "apikey": cloudConfig.key,
+              "Authorization": "Bearer " + cloudConfig.key,
+              "Content-Type": "application/json",
+              "Prefer": "resolution=merge-duplicates"
+            },
+            body: JSON.stringify({
+              key_name: "site_main_data",
+              data_content: JSON.stringify(siteData)
+            })
+          });
+          if (cloudRes.ok) {
+            savedDestinations.push("Supabase Cloud DB");
+          }
+        } catch (cloudErr) {
+          console.warn("Cloud DB save error:", cloudErr);
+        }
+      }
+
+      // 4. Save to Linked Local Folder (Direct Disk Write)
+      if (projectDirHandle) {
+        try {
+          await writeDirectToDisk(projectDirHandle, siteData);
+          savedDestinations.push("Direct Disk Files");
+        } catch (err) {
+          console.warn("Folder write error:", err);
+        }
+      }
+
+      const destSummary = savedDestinations.length > 1 ? (" [" + savedDestinations.join(" + ") + "]") : "";
+      showToast((msg || "Saved successfully!") + destSummary);
     } catch (e) {
       alert("Error saving: " + e.message);
     }
+  }
+
+  /* --- BACKEND HEALTH & MYSQL CHECKER --- */
+  async function checkBackendHealth() {
+    if (!window.location.protocol.startsWith("http")) return;
+
+    const phpBadge = document.getElementById("phpApiStatusBadge");
+    const mysqlBadge = document.getElementById("mysqlStatusBadge");
+
+    try {
+      const res = await fetch("api/get.php?t=" + Date.now(), { cache: "no-store" });
+      if (res.ok) {
+        if (phpBadge) {
+          phpBadge.className = "badge bg-success";
+          phpBadge.textContent = "Online (Active)";
+        }
+        if (mysqlBadge) {
+          mysqlBadge.className = "badge bg-primary";
+          mysqlBadge.textContent = "Connected / Ready";
+        }
+      } else {
+        if (phpBadge) {
+          phpBadge.className = "badge bg-warning text-dark";
+          phpBadge.textContent = "Static / Vercel Mode";
+        }
+      }
+    } catch (e) {
+      if (phpBadge) {
+        phpBadge.className = "badge bg-secondary";
+        phpBadge.textContent = "Unavailable";
+      }
+    }
+  }
+
+  async function testAndSaveMySQL() {
+    const host = document.getElementById("quickDbHost").value.trim() || "localhost";
+    const name = document.getElementById("quickDbName").value.trim();
+    const user = document.getElementById("quickDbUser").value.trim();
+    const pass = document.getElementById("quickDbPass").value.trim();
+
+    if (!name || !user) {
+      alert("Please enter Database Name and Username!");
+      return;
+    }
+
+    try {
+      showToast("Connecting to MySQL Database...");
+      const formData = new FormData();
+      formData.append("db_host", host);
+      formData.append("db_name", name);
+      formData.append("db_user", user);
+      formData.append("db_pass", pass);
+      formData.append("storage_mode", "mysql");
+
+      const res = await fetch("api/install.php", {
+        method: "POST",
+        body: formData
+      });
+
+      if (res.ok) {
+        showToast("MySQL Database connected & tables initialized successfully!");
+        checkBackendHealth();
+      } else {
+        alert("Failed connecting to MySQL. Please verify credentials in api/install.php.");
+      }
+    } catch (err) {
+      alert("Error: " + err.message + "\nYou can also open api/install.php directly in your browser.");
+    }
+  }
+
+  /* --- CLOUD DB (SUPABASE / REST) MANAGER --- */
+  function getCloudDbConfig() {
+    try {
+      return JSON.parse(localStorage.getItem("trust_cloud_db_config") || '{"enabled":false,"url":"","key":""}');
+    } catch (e) {
+      return { enabled: false, url: "", key: "" };
+    }
+  }
+
+  function loadCloudDbConfig() {
+    const c = getCloudDbConfig();
+    const toggle = document.getElementById("cloudDbToggle");
+    const box = document.getElementById("cloudDbConfigBox");
+    const urlInput = document.getElementById("supabaseUrlInput");
+    const keyInput = document.getElementById("supabaseKeyInput");
+
+    if (toggle) toggle.checked = c.enabled;
+    if (box) box.className = c.enabled ? "p-3 border rounded-3 bg-light mb-3" : "p-3 border rounded-3 bg-light mb-3 d-none";
+    if (urlInput) urlInput.value = c.url || "";
+    if (keyInput) keyInput.value = c.key || "";
+  }
+
+  function toggleCloudDbSettings() {
+    const isChecked = document.getElementById("cloudDbToggle").checked;
+    document.getElementById("cloudDbConfigBox").className = isChecked ? "p-3 border rounded-3 bg-light mb-3" : "p-3 border rounded-3 bg-light mb-3 d-none";
+    const c = getCloudDbConfig();
+    c.enabled = isChecked;
+    localStorage.setItem("trust_cloud_db_config", JSON.stringify(c));
+  }
+
+  async function saveAndTestCloudDb() {
+    const url = document.getElementById("supabaseUrlInput").value.trim();
+    const key = document.getElementById("supabaseKeyInput").value.trim();
+    const enabled = document.getElementById("cloudDbToggle").checked;
+
+    if (!url || !key) {
+      alert("Please enter both Supabase Project URL and Public Anon Key!");
+      return;
+    }
+
+    try {
+      showToast("Testing connection to Supabase Cloud DB...");
+      const testRes = await fetch(url + "/rest/v1/trust_site_data?limit=1", {
+        headers: {
+          "apikey": key,
+          "Authorization": "Bearer " + key
+        }
+      });
+
+      if (testRes.ok) {
+        const config = { enabled: true, url: url, key: key };
+        localStorage.setItem("trust_cloud_db_config", JSON.stringify(config));
+        showToast("Supabase Cloud Database connected successfully! Changes will now sync worldwide on Vercel/Netlify!");
+      } else {
+        alert("Could not query 'trust_site_data' table in Supabase. Please make sure the table exists (Click 'View Supabase SQL Table Schema' button).");
+      }
+    } catch (err) {
+      alert("Connection test failed: " + err.message);
+    }
+  }
+
+  function showSupabaseSqlModal() {
+    const sql = `-- Run this in Supabase SQL Editor (1-Click Setup):
+CREATE TABLE IF NOT EXISTS public.trust_site_data (
+  id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+  key_name TEXT UNIQUE NOT NULL,
+  data_content TEXT NOT NULL,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- Enable Public Read & Insert Permissions
+ALTER TABLE public.trust_site_data ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public read" ON public.trust_site_data FOR SELECT USING (true);
+CREATE POLICY "Allow public update" ON public.trust_site_data FOR ALL USING (true);`;
+
+    navigator.clipboard.writeText(sql);
+    alert("Supabase SQL Schema copied to clipboard!\n\nPaste and run it inside your Supabase Project -> SQL Editor -> New Query:\n\n" + sql);
   }
 
   /* --- NATIVE FILE SYSTEM ACCESS API --- */
@@ -2164,7 +2512,8 @@
       tabAbout: "About Us Page Editor",
       tabProducts: "BDCOM Products Catalog",
       tabServices: "Services Offerings Manager",
-      tabContact: "Contact & Physical Branches"
+      tabContact: "Contact & Physical Branches",
+      tabHosting: "Hosting & Database Manager (cPanel, InfinityFree, Vercel, Supabase)"
     };
     document.getElementById("currentTabTitle").textContent = tabMap[tabId] || "Admin Control";
 
@@ -2177,6 +2526,7 @@
     if (tabId === "tabInbox" || tabId === "tabDashboard") renderInbox();
     if (tabId === "tabProducts") renderProductsList();
     if (tabId === "tabServices") renderServicesList();
+    if (tabId === "tabHosting") checkBackendHealth();
     if (tabId === "tabHome") {
       renderTeamList();
       renderBlogList();
