@@ -7436,7 +7436,7 @@ Location:
 }
 .homepage1-body .header-area.homepage1 .header-elements .main-menu ul li:hover > a {
   transition: all 0.4s;
-  color: var(--ztc-text-text-1) !important;
+  color: #0ea5e9 !important;
 }
 .homepage1-body .header-area.homepage1 .header-elements .main-menu ul li:hover > a::after {
   width: 60%;
